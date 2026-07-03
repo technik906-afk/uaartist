@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     # Third-party
     "rest_framework",
     "corsheaders",
+    "django_filters",
+    "drf_spectacular",
     # Local apps
     "apps.core",
     "apps.catalog",
@@ -109,6 +111,21 @@ CORS_ALLOWED_ORIGINS = env.list(
 
 # --- Django REST Framework --------------------------------------------------
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "apps.core.pagination.DefaultPagination",
     "PAGE_SIZE": 12,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+# --- OpenAPI schema (drf-spectacular) ----------------------------------------
+SPECTACULAR_SETTINGS = {
+    "TITLE": "uaartist API",
+    "DESCRIPTION": "REST API интернет-магазина uaartist",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SCHEMA_PATH_PREFIX": r"/api/v[0-9]+",
 }
