@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Local apps
     "apps.core",
     "apps.catalog",
+    "apps.orders",
 ]
 
 MIDDLEWARE = [
@@ -119,7 +120,14 @@ REST_FRAMEWORK = {
         "rest_framework.filters.OrderingFilter",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # Применяется только к вьюхам с throttle_scope (сейчас — оформление заказа).
+    "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
+    "DEFAULT_THROTTLE_RATES": {"orders": "20/hour"},
 }
+
+# --- Telegram notifications --------------------------------------------------
+TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")
+TELEGRAM_CHAT_ID = env("TELEGRAM_CHAT_ID", default="")
 
 # --- OpenAPI schema (drf-spectacular) ----------------------------------------
 SPECTACULAR_SETTINGS = {
