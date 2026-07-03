@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>uaartist | Каталог — Косметички из органического хлопка и льна</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Каталог косметичек из органического хлопка и льна. Базовая и премиум коллекции. Индивидуальный пошив.">
+    <meta name="keywords" content="косметичка, каталог, органический хлопок, лён, ручная работа, uaartist">
+    <meta name="author" content="uaartist">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uaartist.ru/catalog.html">
+    <meta property="og:title" content="uaartist | Каталог косметичек">
+    <meta property="og:description" content="Каталог косметичек из органических материалов. Базовая и премиум коллекции.">
+    <meta property="og:image" content="img/IMG_6677.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="index.html" class="logo">uaartist</a>
+                <nav class="nav">
+                    <a href="index.html">Главная</a>
+                    <a href="catalog.html" class="active">Каталог</a>
+                    <a href="constructor.html">Конструктор</a>
+                    <a href="testimonials.html">Отзывы</a>
+                    <a href="contact.html">Контакты</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-cart-header" id="cartHeaderBtn" aria-label="Корзина">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Actions (outside container for full width) -->
+        <div class="mobile-actions">
+            <button class="mobile-cart-btn" id="mobileCartBtn" aria-label="Корзина">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span class="cart-count" id="mobileCartCount">0</span>
+            </button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title font-serif">Каталог косметичек</h1>
+            <p class="page-subtitle">Выберите идеальную косметичку из нашей коллекции</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" style="padding: 48px 0;">
+        <div class="container">
+            <div class="products-filters">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="wishlist">Избранное</button>
+            </div>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card" data-category="all" data-name="Льняная косметичка «Беж»">
+                    <div class="product-image">
+                        <img src="img/IMG_6666.jpg" alt="Льняная косметичка Беж" loading="lazy">
+                        <button class="product-wishlist" aria-label="В избранное" data-product="Льняная косметичка «Беж»">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div>
+                                <h3 class="product-title font-serif">Льняная косметичка «Беж»</h3>
+                                <p class="product-desc">Классическая бежевая с кисточкой</p>
+                            </div>
+                            <span class="product-price">2 490 ₽</span>
+                        </div>
+                        <button class="btn btn-cart-mobile btn-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-card" data-category="all" data-name="Косметичка «Шалфей»">
+                    <div class="product-image">
+                        <img src="img/IMG_6669.jpg" alt="Косметичка Шалфей" loading="lazy">
+                        <button class="product-wishlist" aria-label="В избранное" data-product="Косметичка «Шалфей»">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div>
+                                <h3 class="product-title font-serif">Косметичка «Шалфей»</h3>
+                                <p class="product-desc">Нежный шалфейный оттенок</p>
+                            </div>
+                            <span class="product-price">2 890 ₽</span>
+                        </div>
+                        <button class="btn btn-cart-mobile btn-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-card" data-category="all" data-name="Косметичка «Эко»">
+                    <div class="product-image">
+                        <img src="img/IMG_6670.jpg" alt="Косметичка Эко" loading="lazy">
+                        <button class="product-wishlist" aria-label="В избранное" data-product="Косметичка «Эко»">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div>
+                                <h3 class="product-title font-serif">Косметичка «Эко»</h3>
+                                <p class="product-desc">Натуральный льняной цвет</p>
+                            </div>
+                            <span class="product-price">2 690 ₽</span>
+                        </div>
+                        <button class="btn btn-cart-mobile btn-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 4 -->
+                <div class="product-card" data-category="all" data-name="Косметичка «Минимал»">
+                    <div class="product-image">
+                        <img src="img/IMG_6672.jpg" alt="Косметичка Минимал" loading="lazy">
+                        <button class="product-wishlist" aria-label="В избранное" data-product="Косметичка «Минимал»">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div>
+                                <h3 class="product-title font-serif">Косметичка «Минимал»</h3>
+                                <p class="product-desc">Лаконичный дизайн без декора</p>
+                            </div>
+                            <span class="product-price">2 590 ₽</span>
+                        </div>
+                        <button class="btn btn-cart-mobile btn-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 5 -->
+                <div class="product-card" data-category="all" data-name="Дорожный набор">
+                    <div class="product-image">
+                        <img src="img/IMG_6674.jpg" alt="Дорожный набор" loading="lazy">
+                        <button class="product-wishlist" aria-label="В избранное" data-product="Дорожный набор">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div>
+                                <h3 class="product-title font-serif">Дорожный набор</h3>
+                                <p class="product-desc">Набор из трёх косметичек</p>
+                            </div>
+                            <span class="product-price">3 990 ₽</span>
+                        </div>
+                        <button class="btn btn-cart-mobile btn-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 6 -->
+                <div class="product-card" data-category="all" data-name="Косметичка «Бохо»">
+                    <div class="product-image">
+                        <img src="img/IMG_6676.jpg" alt="Косметичка Бохо" loading="lazy">
+                        <button class="product-wishlist" aria-label="В избранное" data-product="Косметичка «Бохо»">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div>
+                                <h3 class="product-title font-serif">Косметичка «Бохо»</h3>
+                                <p class="product-desc">С этническим узором</p>
+                            </div>
+                            <span class="product-price">3 690 ₽</span>
+                        </div>
+                        <button class="btn btn-cart-mobile btn-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Сообщение при пустом избранном -->
+            <div class="wishlist-empty-message" id="wishlistEmptyMessage" style="display: none; text-align: center; padding: 48px 0;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 16px; color: var(--color-accent);">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                </svg>
+                <p style="font-size: 1.125rem; color: var(--color-text-brown); margin-bottom: 8px;">В избранном нет товаров</p>
+                <p style="font-size: 0.875rem; color: var(--color-text-gray);">Добавьте товары, нажав на значок сердца</p>
+            </div>
+            <div class="products-cta" style="text-align: center; margin: 48px 0;">
+                <a href="constructor.html" class="btn btn-outline">Заказать индивидуальный пошив</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3 class="footer-logo font-serif">uaartist</h3>
+                    <p>Косметички из органического хлопка и льна ручной работы для сознательных любителей красоты. Устойчивые, элегантные, вневременные.</p>
+                    <div class="footer-social">
+                        <a href="https://instagram.com/@uaartist" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="https://facebook.com/uaartist" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Магазин</h4>
+                    <ul>
+                        <li><a href="catalog.html">Все товары</a></li>
+                        <li><a href="catalog.html">Базовая коллекция</a></li>
+                        <li><a href="catalog.html">Премиум коллекция</a></li>
+                        <li><a href="constructor.html">Индивидуальные заказы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>О нас</h4>
+                    <ul>
+                        <li><a href="index.html#features">Наша история</a></li>
+                        <li><a href="index.html#features">Устойчивость</a></li>
+                        <li><a href="index.html#features">Мастерство</a></li>
+                        <li><a href="testimonials.html">Отзывы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Поддержка</h4>
+                    <ul>
+                        <li><a href="contact.html">Связаться</a></li>
+                        <li><a href="contact.html">Информация о доставке</a></li>
+                        <li><a href="contact.html">Руководство по уходу</a></li>
+                        <li><a href="contact.html">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 uaartist. Все права защищены.</p>
+                <p class="footer-heart">
+                    Создано с
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#C4B5A0" stroke="#C4B5A0" stroke-width="2">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    для осознанной жизни
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notifications Container -->
+    <div class="notifications" id="notifications"></div>
+
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Ваш заказ</h2>
+                <button class="modal-close" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">
+                    <span class="cart-total-label">Итого:</span>
+                    <span class="cart-total-value" id="cartTotal">0 ₽</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" id="clearCartBtn" style="margin-right: auto;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                            <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                        </svg>
+                        Очистить корзину
+                    </button>
+                    <a href="catalog.html" class="btn btn-secondary" id="continueShopping">Продолжить покупки</a>
+                    <button class="btn btn-primary" id="checkoutBtn">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Form Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Оформление заказа</h2>
+                <button class="modal-close" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary" id="orderSummary"></div>
+                <form class="order-modal-form" id="checkoutForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                        <input type="text" placeholder="Имя" required class="form-input" id="orderName">
+                        <input type="tel" placeholder="Телефон" required class="form-input" id="orderPhone">
+                    </div>
+                    <input type="email" placeholder="Email" required class="form-input" id="orderEmail">
+                    <textarea placeholder="Комментарий к заказу" rows="3" class="form-input" id="orderComment"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-full" id="submitOrderBtn">Подтвердить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="telegram-config.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

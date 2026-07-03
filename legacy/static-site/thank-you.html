@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Спасибо за заказ | uaartist</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Ваш заказ принят. Мы свяжемся с вами в ближайшее время.">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    
+    <style>
+        .thank-you-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-4xl) var(--spacing-lg);
+            background: linear-gradient(to bottom right, var(--color-bg), var(--color-bg-secondary));
+        }
+        
+        .thank-you-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-4xl);
+            max-width: 600px;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .thank-you-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-xl);
+            background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent-light));
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .thank-you-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--color-white);
+        }
+        
+        .thank-you-title {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--color-text-dark);
+            margin-bottom: var(--spacing-md);
+            font-family: var(--font-serif);
+        }
+        
+        .thank-you-message {
+            font-size: 1.125rem;
+            color: var(--color-text-brown);
+            line-height: 1.75;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .order-details {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            text-align: left;
+        }
+        
+        .order-details-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-text-dark);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .order-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            font-size: 0.9rem;
+            color: var(--color-text-gray);
+        }
+        
+        .order-detail-row.total {
+            border-top: 1px solid var(--color-accent-light);
+            margin-top: var(--spacing-sm);
+            padding-top: var(--spacing-sm);
+            font-weight: 600;
+            color: var(--color-text-dark);
+            font-size: 1.125rem;
+        }
+        
+        .thank-you-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+        
+        @media (max-width: 480px) {
+            .thank-you-card {
+                padding: var(--spacing-2xl);
+            }
+            
+            .thank-you-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="thank-you-section">
+        <div class="thank-you-card">
+            <div class="thank-you-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>
+                </svg>
+            </div>
+            <h1 class="thank-you-title">Спасибо за заказ!</h1>
+            <p class="thank-you-message">
+                Ваш заказ успешно оформлен. Мы свяжемся с вами в ближайшее время для подтверждения деталей доставки.
+            </p>
+            
+            <div class="order-details" id="orderDetails">
+                <h3 class="order-details-title">Детали заказа</h3>
+                <!-- Order details will be inserted here -->
+            </div>
+            
+            <div class="thank-you-actions">
+                <a href="index.html" class="btn btn-secondary">Вернуться на главную</a>
+                <a href="catalog.html" class="btn btn-primary">Продолжить покупки</a>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Get order data from URL parameters or localStorage
+        function getOrderDetails() {
+            const orderData = localStorage.getItem('uaartist_last_order');
+            if (orderData) {
+                return JSON.parse(orderData);
+            }
+            return null;
+        }
+        
+        function renderOrderDetails() {
+            const order = getOrderDetails();
+            const container = document.getElementById('orderDetails');
+            
+            if (!order) {
+                container.innerHTML = `
+                    <h3 class="order-details-title">Детали заказа</h3>
+                    <p style="color: var(--color-text-gray); font-size: 0.9rem;">
+                        Информация о заказе не найдена. Пожалуйста, свяжитесь с нами для подтверждения.
+                    </p>
+                `;
+                return;
+            }
+            
+            let html = '<h3 class="order-details-title">Детали заказа</h3>';
+            
+            // Items
+            if (order.items && order.items.length > 0) {
+                html += '<div style="margin-bottom: var(--spacing-md);">';
+                order.items.forEach((item, index) => {
+                    html += `
+                        <div class="order-detail-row">
+                            <span>${index + 1}. ${item.name}</span>
+                            <span>${item.price.toLocaleString('ru-RU')} ₽</span>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Customer info
+            if (order.customer) {
+                html += `
+                    <div class="order-detail-row">
+                        <span>Имя:</span>
+                        <span>${order.customer.name}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <span>Телефон:</span>
+                        <span>${order.customer.phone}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <span>Email:</span>
+                        <span>${order.customer.email}</span>
+                    </div>
+                `;
+            }
+            
+            // Total
+            html += `
+                <div class="order-detail-row total">
+                    <span>Итого:</span>
+                    <span>${order.total ? order.total.toLocaleString('ru-RU') : '0'} ₽</span>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        // Clear last order from localStorage (optional - keep for 24 hours)
+        function clearLastOrder() {
+            const lastOrderTime = localStorage.getItem('uaartist_last_order_time');
+            if (lastOrderTime) {
+                const hoursPassed = (Date.now() - parseInt(lastOrderTime)) / (1000 * 60 * 60);
+                if (hoursPassed > 24) {
+                    localStorage.removeItem('uaartist_last_order');
+                    localStorage.removeItem('uaartist_last_order_time');
+                }
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderOrderDetails();
+            clearLastOrder();
+        });
+    </script>
+</body>
+</html>

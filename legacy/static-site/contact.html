@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>uaartist | Контакты — Связаться с нами</title>
+    <meta name="description" content="Свяжитесь с uaartist по вопросам заказов и доставки.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">uaartist</a>
+            <nav class="nav">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html">Каталог</a>
+                <a href="constructor.html">Конструктор</a>
+                <a href="testimonials.html">Отзывы</a>
+                <a href="contact.html" class="active">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <button class="btn-cart-header" id="cartHeaderBtn" aria-label="Корзина">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Actions (outside container for full width) -->
+        <div class="mobile-actions">
+            <button class="mobile-cart-btn" id="mobileCartBtn" aria-label="Корзина">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span class="cart-count" id="mobileCartCount">0</span>
+            </button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title font-serif">Контакты</h1>
+            <p class="page-subtitle">Свяжитесь с нами по любым вопросам</p>
+        </div>
+    </section>
+
+    <section class="contact" style="padding: 48px 0;">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" placeholder="Иван Петров" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="ivan@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон (необязательно)</label>
+                            <input type="tel" placeholder="+7 (999) 123-45-67">
+                        </div>
+                        <div class="form-group">
+                            <label>Ваше сообщение</label>
+                            <textarea rows="5" placeholder="Расскажите о вашем запросе..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Отправить сообщение</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-cards">
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="contact-label">Email</p>
+                                <a href="mailto:hello@uaartist.com">hello@uaartist.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="contact-label">Телефон</p>
+                                <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="contact-label">Местоположение</p>
+                                <p>Район мастеров, Эко-квартал</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-social">
+                        <h3 class="contact-social-title font-serif">Следите за нами</h3>
+                        <p>Присоединяйтесь к нашему сообществу за ежедневным вдохновением.</p>
+                        <div class="social-links">
+                            <a href="https://instagram.com/@uaartist" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                                </svg>
+                            </a>
+                            <a href="https://facebook.com/uaartist" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3 class="footer-logo font-serif">uaartist</h3>
+                    <p>Косметички из органического хлопка и льна ручной работы для сознательных любителей красоты.</p>
+                    <div class="footer-social">
+                        <a href="https://instagram.com/@uaartist" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="https://facebook.com/uaartist" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Магазин</h4>
+                    <ul>
+                        <li><a href="catalog.html">Все товары</a></li>
+                        <li><a href="catalog.html">Базовая коллекция</a></li>
+                        <li><a href="catalog.html">Премиум коллекция</a></li>
+                        <li><a href="constructor.html">Индивидуальные заказы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>О нас</h4>
+                    <ul>
+                        <li><a href="index.html#features">Наша история</a></li>
+                        <li><a href="index.html#features">Устойчивость</a></li>
+                        <li><a href="index.html#features">Мастерство</a></li>
+                        <li><a href="testimonials.html">Отзывы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Поддержка</h4>
+                    <ul>
+                        <li><a href="contact.html">Связаться</a></li>
+                        <li><a href="contact.html">Информация о доставке</a></li>
+                        <li><a href="contact.html">Руководство по уходу</a></li>
+                        <li><a href="contact.html">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 uaartist. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notifications Container -->
+    <div class="notifications" id="notifications"></div>
+
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Ваш заказ</h2>
+                <button class="modal-close" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">
+                    <span class="cart-total-label">Итого:</span>
+                    <span class="cart-total-value" id="cartTotal">0 ₽</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" id="clearCartBtn" style="margin-right: auto;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                            <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                        </svg>
+                        Очистить корзину
+                    </button>
+                    <a href="catalog.html" class="btn btn-secondary" id="continueShopping">Продолжить покупки</a>
+                    <button class="btn btn-primary" id="checkoutBtn">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Form Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Оформление заказа</h2>
+                <button class="modal-close" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary" id="orderSummary">
+                    <!-- Order summary will be inserted here -->
+                </div>
+                <form class="order-modal-form" id="checkoutForm">
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                        <input type="text" placeholder="Имя" required class="form-input" id="orderName">
+                        <input type="tel" placeholder="Телефон" required class="form-input" id="orderPhone">
+                    </div>
+                    <input type="email" placeholder="Email" required class="form-input" id="orderEmail">
+                    <textarea placeholder="Комментарий к заказу (адрес доставки, пожелания)" rows="3" class="form-input" id="orderComment"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-full" id="submitOrderBtn">Подтвердить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="telegram-config.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
