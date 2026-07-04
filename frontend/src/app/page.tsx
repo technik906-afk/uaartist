@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import ProductCard from "@/components/ProductCard";
@@ -11,6 +12,17 @@ export default async function HomePage() {
   return (
     <>
       <section className="hero">
+        <div className="hero-bg">
+          <Image
+            src="/img/IMG_6677.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: "cover" }}
+          />
+          <div className="hero-overlay"></div>
+        </div>
         <div className="container hero-container">
           <div className="hero-content">
             <p className="hero-badge">Устойчивая красота</p>
@@ -28,10 +40,26 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+          <div className="hero-image">
+            <div className="hero-image-wrapper">
+              <Image
+                src="/img/IMG_6666.jpg"
+                alt="Косметичка ручной работы из органического льна"
+                width={800}
+                height={800}
+                priority
+              />
+              <div className="hero-image-accent"></div>
+            </div>
+            <div className="hero-blur hero-blur-1"></div>
+            <div className="hero-blur hero-blur-2"></div>
+          </div>
         </div>
       </section>
 
       <section className="features">
+        <div className="features-blur features-blur-1"></div>
+        <div className="features-blur features-blur-2"></div>
         <div className="container">
           <div className="section-header">
             <p className="section-badge">Почему мы</p>
