@@ -8,7 +8,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { API_BASE, ApiError, type OrderRead } from "@/lib/api/client";
+import { API_BASE, ApiError, createOrder, type Checkout, type OrderRead } from "@/lib/api/client";
 
 interface AuthState {
   access: string | null;
@@ -155,4 +155,24 @@ export async function confirmPasswordReset(uid: string, token: string, newPasswo
 
 export async function fetchMyOrders(): Promise<{ count: number; results: OrderRead[] }> {
   return jsonOrThrow(await authFetch("/orders/my/"));
+}
+
+/**
+ * Оформление заказа с учётом сессии: залогиненный идёт через authFetch
+ * (refresh при протухшем access); если токены мертвы даже после refresh —
+ * заказ уходит как гостевой (заказ важнее привязки к аккаунту).
+ */
+export async function submitOrder(payload: Checkout): Promise<OrderRead> {
+  if (useAuth.getState().access) {
+    const response = await authFetch("/orders/", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    if (response.status !== 401) {
+      return jsonOrThrow(response);
+    }
+    // 401 после refresh: сессия невосстановима — падаем в гостевой чекаут
+    useAuth.getState().logout();
+  }
+  return createOrder(payload);
 }

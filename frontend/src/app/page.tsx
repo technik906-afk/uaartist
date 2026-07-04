@@ -4,6 +4,10 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { getProducts } from "@/lib/api/client";
 
+// ISR: страница статическая, но пересобирается не реже раза в 5 минут —
+// новые товары появляются на главной без redeploy.
+export const revalidate = 300;
+
 export default async function HomePage() {
   // SSR: товары в HTML — поисковики видят контент сразу.
   const products = await getProducts({ in_stock: "true" }).catch(() => null);

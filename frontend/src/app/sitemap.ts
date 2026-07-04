@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 
 import { getProducts } from "@/lib/api/client";
 
+// Пересборка sitemap раз в час — подхватывает новые товары без redeploy.
+export const revalidate = 3600;
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

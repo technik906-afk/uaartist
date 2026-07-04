@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import WishlistButton from "@/components/WishlistButton";
 import type { ProductList } from "@/lib/api/client";
 import { formatPrice } from "@/lib/format";
 
@@ -13,6 +14,7 @@ export default function ProductCard({ product }: { product: ProductList }) {
   return (
     <div className="product-card">
       <Link href={`/product/${product.slug}`} className="product-image">
+        <WishlistButton slug={product.slug} />
         {product.main_image ? (
           <Image
             src={product.main_image.image}

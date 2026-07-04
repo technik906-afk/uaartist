@@ -23,7 +23,12 @@ export interface CartItem {
   price: number; // display price
   image?: string | null;
   quantity: number;
+  /** остаток на складе на момент добавления (UX-подсказка; сервер всё равно проверяет) */
+  maxQuantity?: number;
 }
+
+const clampQuantity = (quantity: number, max?: number) =>
+  Math.max(1, Math.min(quantity, max ?? 99));
 
 interface CartState {
   items: CartItem[];
@@ -46,7 +51,14 @@ export const useCart = create<CartState>()(
           if (existing) {
             return {
               items: state.items.map((i) =>
-                i.key === key ? { ...i, quantity: i.quantity + 1 } : i
+                i.key === key
+                  ? {
+                      ...i,
+                      // обновляем известный остаток и не даём превысить его
+                      maxQuantity: item.maxQuantity ?? i.maxQuantity,
+                      quantity: clampQuantity(i.quantity + 1, item.maxQuantity ?? i.maxQuantity),
+                    }
+                  : i
               ),
             };
           }
@@ -70,7 +82,7 @@ export const useCart = create<CartState>()(
       setQuantity: (key, quantity) =>
         set((state) => ({
           items: state.items.map((i) =>
-            i.key === key ? { ...i, quantity: Math.max(1, quantity) } : i
+            i.key === key ? { ...i, quantity: clampQuantity(quantity, i.maxQuantity) } : i
           ),
         })),
 

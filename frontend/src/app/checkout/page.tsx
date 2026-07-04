@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { createOrder, ApiError, type CheckoutItem } from "@/lib/api/client";
-import { fetchProfile, useAuth, type Profile } from "@/lib/auth";
+import { ApiError, type CheckoutItem } from "@/lib/api/client";
+import { fetchProfile, submitOrder, useAuth, type Profile } from "@/lib/auth";
 import { cartTotal, formatPrice, useCart } from "@/lib/cart";
 import { useMounted } from "@/lib/hooks";
 
@@ -18,26 +18,26 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
   // Для залогиненного — предзаполняем форму данными профиля.
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileReady, setProfileReady] = useState(false);
 
   useEffect(() => {
     if (!mounted || !access) return;
     let cancelled = false;
-    setProfileLoading(true);
     fetchProfile()
       .then((p) => {
         if (!cancelled) setProfile(p);
       })
       .catch(() => {}) // не удалось — оформит как гость
       .finally(() => {
-        if (!cancelled) setProfileLoading(false);
+        if (!cancelled) setProfileReady(true);
       });
     return () => {
       cancelled = true;
     };
   }, [mounted, access]);
 
-  if (!mounted || profileLoading) return null;
+  // Гость видит форму сразу; залогиненный — после загрузки профиля (для предзаполнения).
+  if (!mounted || (access && !profileReady)) return null;
 
   if (items.length === 0) {
     return (
@@ -73,7 +73,7 @@ export default function CheckoutPage() {
     };
 
     try {
-      const order = await createOrder(payload, access);
+      const order = await submitOrder(payload);
       sessionStorage.setItem("uaartist_last_order", JSON.stringify(order));
       clear();
       router.push("/thank-you");

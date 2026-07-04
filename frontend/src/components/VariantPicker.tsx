@@ -31,6 +31,7 @@ export default function VariantPicker({ product }: { product: ProductDetail }) {
           : product.name,
       price: Number(selected.price),
       image: product.main_image?.image ?? null,
+      maxQuantity: selected.stock ?? undefined,
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);

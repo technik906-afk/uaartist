@@ -75,9 +75,20 @@ export default function CartPage() {
                 <button
                   className="filter-btn"
                   onClick={() => setQuantity(item.key, item.quantity + 1)}
+                  disabled={item.maxQuantity != null && item.quantity >= item.maxQuantity}
+                  title={
+                    item.maxQuantity != null && item.quantity >= item.maxQuantity
+                      ? `На складе ${item.maxQuantity} шт.`
+                      : undefined
+                  }
                 >
                   +
                 </button>
+                {item.maxQuantity != null && item.quantity >= item.maxQuantity && (
+                  <span style={{ fontSize: "0.75rem", color: "#a67c52" }}>
+                    макс. {item.maxQuantity} шт.
+                  </span>
+                )}
               </div>
             </div>
             <div style={{ textAlign: "right" }}>
