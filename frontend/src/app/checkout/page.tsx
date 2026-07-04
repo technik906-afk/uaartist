@@ -90,7 +90,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <section className="products" style={{ padding: "48px 0" }}>
+    <section className="products" style={{ padding: "120px 0 48px" }}>
       <div className="container" style={{ maxWidth: 640 }}>
         <h1 className="page-title font-serif" style={{ marginBottom: 8 }}>
           Оформление заказа

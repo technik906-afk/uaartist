@@ -74,7 +74,7 @@ export default function EditProfilePage() {
   };
 
   return (
-    <section className="products" style={{ padding: "48px 0 96px" }}>
+    <section className="products" style={{ padding: "120px 0 96px" }}>
       <div className="container" style={{ maxWidth: 480 }}>
         <p style={{ marginBottom: 8 }}>
           <Link href="/account" style={{ fontSize: "0.85rem", color: "#888" }}>

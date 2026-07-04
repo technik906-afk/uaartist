@@ -29,9 +29,11 @@ class ApiError extends Error {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  // ВАЖНО: init раскрывается первым, headers мержатся после —
+  // иначе init.headers затирает Content-Type (ловили 415 на чекауте).
   const response = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json", ...init?.headers },
     ...init,
+    headers: { "Content-Type": "application/json", ...init?.headers },
   });
   const data = response.status === 204 ? null : await response.json();
   if (!response.ok) throw new ApiError(response.status, data);

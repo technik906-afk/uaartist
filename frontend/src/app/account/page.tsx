@@ -73,7 +73,7 @@ export default function AccountPage() {
   }
 
   return (
-    <section className="products" style={{ padding: "48px 0 96px" }}>
+    <section className="products" style={{ padding: "120px 0 96px" }}>
       <div className="container" style={{ maxWidth: 800 }}>
         <div
           style={{

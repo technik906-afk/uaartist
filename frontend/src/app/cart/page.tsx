@@ -27,7 +27,7 @@ export default function CartPage() {
   }
 
   return (
-    <section className="products" style={{ padding: "48px 0" }}>
+    <section className="products" style={{ padding: "120px 0 48px" }}>
       <div className="container" style={{ maxWidth: 800 }}>
         <h1 className="page-title font-serif" style={{ marginBottom: 32 }}>
           Ваш заказ

@@ -29,7 +29,7 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   return (
-    <section className="products" style={{ padding: "48px 0" }}>
+    <section className="products" style={{ padding: "120px 0 48px" }}>
       <div className="container">
         <div
           style={{
