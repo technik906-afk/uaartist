@@ -19,7 +19,7 @@ export default function Footer() {
                 <Link href="/catalog">Все товары</Link>
               </li>
               <li>
-                <Link href="/constructor">Индивидуальные заказы</Link>
+                <Link href="/custom">Индивидуальные заказы</Link>
               </li>
             </ul>
           </div>

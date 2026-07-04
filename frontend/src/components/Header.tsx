@@ -11,7 +11,7 @@ import { useMounted } from "@/lib/hooks";
 const NAV = [
   { href: "/", label: "Главная" },
   { href: "/catalog", label: "Каталог" },
-  { href: "/constructor", label: "Конструктор" },
+  { href: "/custom", label: "Конструктор" },
   { href: "/testimonials", label: "Отзывы" },
   { href: "/contacts", label: "Контакты" },
 ];

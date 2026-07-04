@@ -28,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "openapi-typescript": "^7.13.0",
+    "playwright": "^1.61.1",
     "prettier": "^3.9.4",
     "typescript": "^5"
   }

@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     "",
     "/catalog",
-    "/constructor",
+    "/custom",
     "/testimonials",
     "/contacts",
   ].map((path) => ({ url: `${SITE_URL}${path}`, changeFrequency: "weekly" }));
