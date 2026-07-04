@@ -21,6 +21,11 @@ export default function AuthForm({ mode }: { mode: "login" | "register" }) {
     const form = new FormData(e.currentTarget);
     const email = String(form.get("email") ?? "");
     const password = String(form.get("password") ?? "");
+    if (!isLogin && password !== String(form.get("confirm_password") ?? "")) {
+      setError("Пароли не совпадают.");
+      setSubmitting(false);
+      return;
+    }
     try {
       if (isLogin) {
         await login(email, password);
@@ -82,7 +87,19 @@ export default function AuthForm({ mode }: { mode: "login" | "register" }) {
             required
             minLength={8}
             className="form-input"
+            autoComplete={isLogin ? "current-password" : "new-password"}
           />
+          {!isLogin && (
+            <input
+              name="confirm_password"
+              type="password"
+              placeholder="Подтвердите пароль"
+              required
+              minLength={8}
+              className="form-input"
+              autoComplete="new-password"
+            />
+          )}
           {!isLogin && (
             <label
               style={{

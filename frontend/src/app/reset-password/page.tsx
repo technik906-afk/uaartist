@@ -32,12 +32,15 @@ function ResetPasswordForm() {
     e.preventDefault();
     setError(null);
     setSubmitting(true);
+    const data = new FormData(e.currentTarget);
+    const password = String(data.get("password") ?? "");
+    if (password !== String(data.get("confirm_password") ?? "")) {
+      setError("Пароли не совпадают.");
+      setSubmitting(false);
+      return;
+    }
     try {
-      await confirmPasswordReset(
-        uid,
-        token,
-        String(new FormData(e.currentTarget).get("password") ?? "")
-      );
+      await confirmPasswordReset(uid, token, password);
       router.push("/login");
     } catch (err) {
       if (err instanceof ApiError && err.status === 400) {
@@ -55,6 +58,15 @@ function ResetPasswordForm() {
         name="password"
         type="password"
         placeholder="Новый пароль"
+        required
+        minLength={8}
+        className="form-input"
+        autoComplete="new-password"
+      />
+      <input
+        name="confirm_password"
+        type="password"
+        placeholder="Подтвердите пароль"
         required
         minLength={8}
         className="form-input"
