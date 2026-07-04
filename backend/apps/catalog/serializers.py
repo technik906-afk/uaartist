@@ -1,5 +1,6 @@
 """Catalog serializers: lean list shape, full detail shape."""
 
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from .models import AttributeValue, Category, Product, ProductImage, ProductVariant
@@ -60,7 +61,8 @@ class ProductListSerializer(serializers.ModelSerializer):
             "in_stock",
         ]
 
-    def get_main_image(self, obj) -> dict | None:
+    @extend_schema_field(ProductImageSerializer(allow_null=True))
+    def get_main_image(self, obj):
         # Uses the prefetched cache: is_main first, otherwise first by sort_order.
         images = list(obj.images.all())
         if not images:

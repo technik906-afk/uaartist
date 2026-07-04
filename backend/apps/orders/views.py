@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -13,6 +14,7 @@ class OrderViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     permission_classes = [AllowAny]
     throttle_scope = "orders"
 
+    @extend_schema(request=CheckoutSerializer, responses={201: OrderReadSerializer})
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
