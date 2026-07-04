@@ -55,11 +55,13 @@ export default function EditProfilePage() {
     setPasswordErr(null);
     const form = e.currentTarget;
     const data = new FormData(form);
+    const newPassword = String(data.get("new_password") ?? "");
+    if (newPassword !== String(data.get("confirm_password") ?? "")) {
+      setPasswordErr("Пароли не совпадают.");
+      return;
+    }
     try {
-      await changePassword(
-        String(data.get("old_password") ?? ""),
-        String(data.get("new_password") ?? "")
-      );
+      await changePassword(String(data.get("old_password") ?? ""), newPassword);
       setPasswordMsg("Пароль изменён.");
       form.reset();
     } catch (err) {
@@ -133,6 +135,15 @@ export default function EditProfilePage() {
             name="new_password"
             type="password"
             placeholder="Новый пароль"
+            required
+            minLength={8}
+            className="form-input"
+            autoComplete="new-password"
+          />
+          <input
+            name="confirm_password"
+            type="password"
+            placeholder="Подтвердите пароль"
             required
             minLength={8}
             className="form-input"
