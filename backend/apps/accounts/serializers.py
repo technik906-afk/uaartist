@@ -56,3 +56,52 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ["id", "email", "first_name", "last_name", "phone", "date_joined"]
         read_only_fields = fields
+
+
+class ProfileUpdateSerializer(serializers.Serializer):
+    """PATCH /auth/me/: имя и телефон."""
+
+    first_name = serializers.CharField(max_length=100, required=False)
+    phone = serializers.RegexField(
+        regex=r"^[\d\s+\-()]{6,20}$",
+        required=False,
+        error_messages={"invalid": "Введите корректный номер телефона."},
+    )
+
+    def update(self, user, validated_data):
+        if "first_name" in validated_data:
+            user.first_name = validated_data["first_name"]
+            user.save(update_fields=["first_name"])
+        if "phone" in validated_data:
+            profile = getattr(user, "profile", None) or Profile.objects.create(user=user)
+            profile.phone = validated_data["phone"]
+            profile.save(update_fields=["phone"])
+        return user
+
+
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+
+    def validate_old_password(self, value):
+        if not self.context["user"].check_password(value):
+            raise serializers.ValidationError("Текущий пароль указан неверно.")
+        return value
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    new_password = serializers.CharField(write_only=True)
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value

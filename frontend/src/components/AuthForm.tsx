@@ -120,6 +120,10 @@ export default function AuthForm({ mode }: { mode: "login" | "register" }) {
           {isLogin ? (
             <>
               Нет аккаунта? <Link href="/register">Зарегистрироваться</Link>
+              <br />
+              <Link href="/forgot-password" style={{ color: "#888" }}>
+                Забыли пароль?
+              </Link>
             </>
           ) : (
             <>

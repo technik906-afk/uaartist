@@ -145,6 +145,9 @@ EMAIL_BACKEND = env(
 )
 DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL", default="uaartist <noreply@uaartist.ru>")
 
+# База фронтенда — для ссылок в письмах (сброс пароля и т.п.).
+FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:3000")
+
 # --- Telegram notifications --------------------------------------------------
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")
 TELEGRAM_CHAT_ID = env("TELEGRAM_CHAT_ID", default="")

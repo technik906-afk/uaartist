@@ -11,10 +11,65 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /** @description Профиль текущего пользователя. */
+    /** @description Профиль текущего пользователя: чтение и частичное обновление. */
     get: operations["auth_me_retrieve"];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /** @description Профиль текущего пользователя: чтение и частичное обновление. */
+    patch: operations["auth_me_partial_update"];
+    trace?: never;
+  };
+  "/api/v1/auth/password/change/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Смена пароля: требует текущий пароль. */
+    post: operations["auth_password_change_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/password/reset/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * @description Запрос сброса пароля: шлёт письмо со ссылкой.
+     *     Ответ всегда одинаковый — существование email не раскрываем.
+     */
+    post: operations["auth_password_reset_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/password/reset/confirm/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Установка нового пароля по ссылке из письма. */
+    post: operations["auth_password_reset_confirm_create"];
     delete?: never;
     options?: never;
     head?: never;
@@ -260,6 +315,9 @@ export interface components {
       /** @default  */
       comment: string;
     };
+    Detail: {
+      detail: string;
+    };
     OrderItemRead: {
       /** Название */
       product_name: string;
@@ -334,6 +392,24 @@ export interface components {
        */
       previous?: string | null;
       results: components["schemas"]["ProductList"][];
+    };
+    PasswordChange: {
+      old_password: string;
+      new_password: string;
+    };
+    PasswordReset: {
+      /** Format: email */
+      email: string;
+    };
+    PasswordResetConfirm: {
+      uid: string;
+      token: string;
+      new_password: string;
+    };
+    /** @description PATCH /auth/me/: имя и телефон. */
+    PatchedProfileUpdate: {
+      first_name?: string;
+      phone?: string;
     };
     /**
      * @description * `pending` - Ожидает оплаты
@@ -499,6 +575,106 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["User"];
+        };
+      };
+    };
+  };
+  auth_me_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["PatchedProfileUpdate"];
+        "application/x-www-form-urlencoded": components["schemas"]["PatchedProfileUpdate"];
+        "multipart/form-data": components["schemas"]["PatchedProfileUpdate"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["User"];
+        };
+      };
+    };
+  };
+  auth_password_change_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PasswordChange"];
+        "application/x-www-form-urlencoded": components["schemas"]["PasswordChange"];
+        "multipart/form-data": components["schemas"]["PasswordChange"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Detail"];
+        };
+      };
+    };
+  };
+  auth_password_reset_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PasswordReset"];
+        "application/x-www-form-urlencoded": components["schemas"]["PasswordReset"];
+        "multipart/form-data": components["schemas"]["PasswordReset"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Detail"];
+        };
+      };
+    };
+  };
+  auth_password_reset_confirm_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PasswordResetConfirm"];
+        "application/x-www-form-urlencoded": components["schemas"]["PasswordResetConfirm"];
+        "multipart/form-data": components["schemas"]["PasswordResetConfirm"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Detail"];
         };
       };
     };

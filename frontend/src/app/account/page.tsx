@@ -84,15 +84,20 @@ export default function AccountPage() {
           }}
         >
           <h1 className="page-title font-serif">Личный кабинет</h1>
-          <button
-            className="filter-btn"
-            onClick={() => {
-              logout();
-              router.push("/");
-            }}
-          >
-            Выйти
-          </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            <Link href="/account/edit" className="filter-btn">
+              Редактировать профиль
+            </Link>
+            <button
+              className="filter-btn"
+              onClick={() => {
+                logout();
+                router.push("/");
+              }}
+            >
+              Выйти
+            </button>
+          </div>
         </div>
 
         {profile && (

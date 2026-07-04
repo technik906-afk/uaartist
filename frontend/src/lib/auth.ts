@@ -117,6 +117,42 @@ export async function fetchProfile(): Promise<Profile> {
   return jsonOrThrow(await authFetch("/auth/me/"));
 }
 
+export async function updateProfile(data: {
+  first_name?: string;
+  phone?: string;
+}): Promise<Profile> {
+  return jsonOrThrow(await authFetch("/auth/me/", { method: "PATCH", body: JSON.stringify(data) }));
+}
+
+export async function changePassword(oldPassword: string, newPassword: string) {
+  return jsonOrThrow(
+    await authFetch("/auth/password/change/", {
+      method: "POST",
+      body: JSON.stringify({ old_password: oldPassword, new_password: newPassword }),
+    })
+  );
+}
+
+export async function requestPasswordReset(email: string) {
+  return jsonOrThrow(
+    await fetch(`${API_BASE}/auth/password/reset/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    })
+  );
+}
+
+export async function confirmPasswordReset(uid: string, token: string, newPassword: string) {
+  return jsonOrThrow(
+    await fetch(`${API_BASE}/auth/password/reset/confirm/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uid, token, new_password: newPassword }),
+    })
+  );
+}
+
 export async function fetchMyOrders(): Promise<{ count: number; results: OrderRead[] }> {
   return jsonOrThrow(await authFetch("/orders/my/"));
 }
