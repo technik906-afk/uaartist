@@ -154,6 +154,7 @@
 - **Деплой.** Backend: VPS + Docker + nginx + gunicorn/uvicorn, HTTPS (Let's Encrypt). Frontend: Vercel или self-host. Persistent volume для медиа при локальном storage.
 - **Окружения:** dev / staging / prod с раздельными `.env` и базами. Прод-настройки Django (`DEBUG=False`, `ALLOWED_HOSTS`, secure cookies).
 - **Безопасность:** ротация Telegram-токена, проверка секретов, CORS в проде, rate limiting на заказе/логине, серверная валидация, без утечек в ошибках.
+  - [ ] **DJANGO_SECRET_KEY: сгенерировать длинный случайный ключ (50+ символов, ≥32 байт)** — dev-заглушка криптографически слаба (HMAC-подпись JWT/сессий/ссылок сброса пароля); тесты предупреждают об этом. Сгенерировать: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`. Хранить только в прод-`.env`.
 - **Тесты:** pytest + pytest-django (модель заказа, пересчёт суммы, остатки); тесты фронта; E2E оформления (Playwright).
 - **Наблюдаемость:** логирование, Sentry, бэкапы БД.
 - **Производительность:** кэш каталога, индексы по `slug`/`category`.
