@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from .models import Attribute, AttributeValue, Category, Product, ProductImage, ProductVariant
+from .models import (
+    Attribute,
+    AttributeValue,
+    Category,
+    ConstructorOption,
+    Product,
+    ProductImage,
+    ProductVariant,
+)
 
 
 class ProductImageInline(admin.TabularInline):
@@ -45,6 +53,15 @@ class AttributeAdmin(admin.ModelAdmin):
     list_display = ["name", "slug"]
     prepopulated_fields = {"slug": ["name"]}
     inlines = [AttributeValueInline]
+
+
+@admin.register(ConstructorOption)
+class ConstructorOptionAdmin(admin.ModelAdmin):
+    list_display = ["option_type", "name", "slug", "price", "color_hex", "is_active", "sort_order"]
+    list_editable = ["price", "is_active", "sort_order"]
+    list_filter = ["option_type", "is_active"]
+    search_fields = ["name", "slug"]
+    prepopulated_fields = {"slug": ["name"]}
 
 
 @admin.register(ProductVariant)

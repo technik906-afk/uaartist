@@ -1,47 +1,55 @@
 """
 Server-side pricing for constructor (custom) items.
 
-Prices/options mirror the legacy constructor (legacy/static-site/constructor.*).
-The client NEVER sends a price — it is always computed here.
+Источник истины — БД (catalog.ConstructorOption, правится через админку).
+Клиент цену НЕ передаёт: она всегда вычисляется здесь.
 """
 
 from decimal import Decimal
 
-SIZES = {
-    "small": {"name": "Мини", "price": Decimal("2490")},
-    "medium": {"name": "Стандарт", "price": Decimal("2890")},
-    "large": {"name": "Макси", "price": Decimal("3490")},
-}
+from rest_framework import serializers
 
-BAG_COLORS = {
-    "beige": "Бежевый",
-    "sage": "Шалфей",
-    "olive": "Олива",
-    "gray": "Серый",
-    "natural": "Натуральный",
-    "white": "Белый",
-}
+from apps.catalog.models import ConstructorOption
 
-ZIPPER_COLORS = {
-    "gold": "Золотая",
-    "silver": "Серебряная",
-    "bronze": "Бронзовая",
-    "black": "Чёрная",
-    "beige": "Бежевая",
-}
+OptionType = ConstructorOption.OptionType
 
-TASSEL_PRICE = Decimal("200")
+TASSEL_SLUG = "tassel"
+
+
+def _resolve(option_type: str, slug: str, field: str) -> ConstructorOption:
+    option = ConstructorOption.objects.filter(
+        option_type=option_type, slug=slug, is_active=True
+    ).first()
+    if option is None:
+        raise serializers.ValidationError({field: f"Недоступная опция: {slug}"})
+    return option
+
+
+def resolve_config(config: dict) -> dict[str, ConstructorOption | None]:
+    """Разворачивает слаги конфига в опции из БД; кидает 400 на неизвестные/выключенные."""
+    resolved = {
+        "size": _resolve(OptionType.SIZE, config["size"], "size"),
+        "bag_color": _resolve(OptionType.BAG_COLOR, config["bag_color"], "bag_color"),
+        "zipper_color": _resolve(OptionType.ZIPPER_COLOR, config["zipper_color"], "zipper_color"),
+        "tassel": None,
+    }
+    if config.get("tassel"):
+        resolved["tassel"] = _resolve(OptionType.ADDON, TASSEL_SLUG, "tassel")
+    return resolved
 
 
 def compute_custom_price(config: dict) -> Decimal:
-    """Цена кастомной косметички: размер + опциональная кисточка."""
-    price = SIZES[config["size"]]["price"]
-    if config.get("tassel"):
-        price += TASSEL_PRICE
+    """Цена кастомного изделия: размер + наценки цветов + дополнения."""
+    resolved = resolve_config(config)
+    price = resolved["size"].price + resolved["bag_color"].price + resolved["zipper_color"].price
+    if resolved["tassel"] is not None:
+        price += resolved["tassel"].price
     return price
 
 
 def custom_display_name(config: dict) -> str:
-    size = SIZES[config["size"]]["name"]
-    color = BAG_COLORS[config["bag_color"]]
-    return f"Косметичка «{size}» ({color}, индивидуальный пошив)"
+    resolved = resolve_config(config)
+    return (
+        f"Косметичка «{resolved['size'].name}» "
+        f"({resolved['bag_color'].name}, индивидуальный пошив)"
+    )

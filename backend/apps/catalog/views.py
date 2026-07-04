@@ -1,9 +1,19 @@
 from django.db.models import Exists, Max, Min, OuterRef, Prefetch, Q
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 from .filters import ProductFilter
-from .models import Category, Product, ProductVariant
-from .serializers import CategorySerializer, ProductDetailSerializer, ProductListSerializer
+from .models import Category, ConstructorOption, Product, ProductVariant
+from .serializers import (
+    CategorySerializer,
+    ConstructorOptionSerializer,
+    ConstructorOptionsResponseSerializer,
+    ProductDetailSerializer,
+    ProductListSerializer,
+)
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -49,3 +59,20 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == "retrieve":
             return ProductDetailSerializer
         return ProductListSerializer
+
+
+@extend_schema(responses=ConstructorOptionsResponseSerializer)
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def constructor_options(request):
+    """Активные опции конструктора, сгруппированные по типу. Цены — из БД."""
+    options = ConstructorOption.objects.filter(is_active=True)
+    grouped = {
+        "sizes": options.filter(option_type=ConstructorOption.OptionType.SIZE),
+        "bag_colors": options.filter(option_type=ConstructorOption.OptionType.BAG_COLOR),
+        "zipper_colors": options.filter(option_type=ConstructorOption.OptionType.ZIPPER_COLOR),
+        "addons": options.filter(option_type=ConstructorOption.OptionType.ADDON),
+    }
+    return Response(
+        {key: ConstructorOptionSerializer(qs, many=True).data for key, qs in grouped.items()}
+    )

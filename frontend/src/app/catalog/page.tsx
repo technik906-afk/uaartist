@@ -134,8 +134,8 @@ export default async function CatalogPage({ searchParams }: Props) {
           )}
 
           <div style={{ textAlign: "center", margin: "48px 0" }}>
-            <Link href="/contacts" className="btn btn-outline">
-              Нужен индивидуальный пошив? Свяжитесь с нами
+            <Link href="/constructor" className="btn btn-outline">
+              Заказать индивидуальный пошив
             </Link>
           </div>
         </div>

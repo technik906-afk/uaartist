@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from . import pricing
 from .models import Order, OrderItem
 
 
@@ -15,11 +14,14 @@ class CustomerSerializer(serializers.Serializer):
 
 
 class CustomConfigSerializer(serializers.Serializer):
-    """Конфигурация конструктора; цена считается на сервере (pricing.py)."""
+    """
+    Конфигурация конструктора. Слаги валидируются по БД
+    (catalog.ConstructorOption) в pricing.resolve_config при создании заказа.
+    """
 
-    size = serializers.ChoiceField(choices=list(pricing.SIZES))
-    bag_color = serializers.ChoiceField(choices=list(pricing.BAG_COLORS))
-    zipper_color = serializers.ChoiceField(choices=list(pricing.ZIPPER_COLORS))
+    size = serializers.SlugField()
+    bag_color = serializers.SlugField()
+    zipper_color = serializers.SlugField()
     tassel = serializers.BooleanField(default=False)
 
 

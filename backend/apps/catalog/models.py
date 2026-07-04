@@ -149,6 +149,47 @@ class AttributeValue(models.Model):
         return f"{self.attribute}: {self.value}"
 
 
+class ConstructorOption(models.Model):
+    """
+    Опция конструктора индивидуального пошива: размер, цвет ткани,
+    цвет молнии или дополнение (кисточка и т.п.).
+
+    Цены живут здесь, в БД, и правятся через админку — не в коде.
+    Для размеров price — базовая цена изделия; для цветов — наценка
+    (обычно 0); для дополнений — цена опции.
+    """
+
+    class OptionType(models.TextChoices):
+        SIZE = "size", "Размер"
+        BAG_COLOR = "bag_color", "Цвет ткани"
+        ZIPPER_COLOR = "zipper_color", "Цвет молнии"
+        ADDON = "addon", "Дополнение"
+
+    option_type = models.CharField("Тип", max_length=20, choices=OptionType)
+    slug = models.SlugField("Слаг", max_length=50)
+    name = models.CharField("Название", max_length=100)
+    price = models.DecimalField("Цена/наценка, ₽", max_digits=10, decimal_places=2, default=0)
+    color_hex = models.CharField("Цвет (hex)", max_length=7, blank=True)
+    is_active = models.BooleanField("Активна", default=True)
+    sort_order = models.PositiveSmallIntegerField("Порядок", default=0)
+
+    class Meta:
+        verbose_name = "Опция конструктора"
+        verbose_name_plural = "Опции конструктора"
+        ordering = ["option_type", "sort_order", "id"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["option_type", "slug"], name="unique_constructor_option_slug"
+            ),
+            models.CheckConstraint(
+                condition=models.Q(price__gte=0), name="constructor_option_price_gte_0"
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.get_option_type_display()}: {self.name}"
+
+
 class ProductVariant(models.Model):
     """
     Purchasable unit: a concrete combination of attribute values

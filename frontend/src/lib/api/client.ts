@@ -16,6 +16,8 @@ export type CheckoutItem = components["schemas"]["CheckoutItem"];
 export type CustomConfig = NonNullable<CheckoutItem["custom"]>;
 export type OrderRead = components["schemas"]["OrderRead"];
 export type PaginatedProducts = components["schemas"]["PaginatedProductListList"];
+export type ConstructorOption = components["schemas"]["ConstructorOption"];
+export type ConstructorOptions = components["schemas"]["ConstructorOptionsResponse"];
 
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api/v1";
 
@@ -64,6 +66,10 @@ export function getProduct(slug: string): Promise<ProductDetail> {
 
 export function getCategories(): Promise<Category[]> {
   return request<Category[]>(`/categories/`);
+}
+
+export function getConstructorOptions(): Promise<ConstructorOptions> {
+  return request<ConstructorOptions>(`/constructor/options/`);
 }
 
 export function createOrder(payload: Checkout, accessToken?: string | null): Promise<OrderRead> {

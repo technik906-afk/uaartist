@@ -42,6 +42,9 @@ export default async function HomePage() {
               <Link href="/catalog" className="btn btn-primary">
                 Перейти в каталог
               </Link>
+              <Link href="/constructor" className="btn btn-secondary">
+                Конструктор
+              </Link>
             </div>
           </div>
           <div className="hero-image">

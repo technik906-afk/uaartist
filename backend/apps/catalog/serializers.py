@@ -3,7 +3,14 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from .models import AttributeValue, Category, Product, ProductImage, ProductVariant
+from .models import (
+    AttributeValue,
+    Category,
+    ConstructorOption,
+    Product,
+    ProductImage,
+    ProductVariant,
+)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -69,6 +76,21 @@ class ProductListSerializer(serializers.ModelSerializer):
             return None
         main = next((img for img in images if img.is_main), images[0])
         return ProductImageSerializer(main, context=self.context).data
+
+
+class ConstructorOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConstructorOption
+        fields = ["slug", "name", "price", "color_hex"]
+
+
+class ConstructorOptionsResponseSerializer(serializers.Serializer):
+    """Ответ /constructor/options/: опции, сгруппированные по типу."""
+
+    sizes = ConstructorOptionSerializer(many=True)
+    bag_colors = ConstructorOptionSerializer(many=True)
+    zipper_colors = ConstructorOptionSerializer(many=True)
+    addons = ConstructorOptionSerializer(many=True)
 
 
 class ProductDetailSerializer(ProductListSerializer):

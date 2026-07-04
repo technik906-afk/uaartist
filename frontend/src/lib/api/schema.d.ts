@@ -167,6 +167,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/constructor/options/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Активные опции конструктора, сгруппированные по типу. Цены — из БД. */
+    get: operations["constructor_options_retrieve"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/health/": {
     parameters: {
       query?: never;
@@ -267,16 +284,6 @@ export interface components {
       /** Цвет (hex) */
       color_hex?: string;
     };
-    /**
-     * @description * `beige` - beige
-     *     * `sage` - sage
-     *     * `olive` - olive
-     *     * `gray` - gray
-     *     * `natural` - natural
-     *     * `white` - white
-     * @enum {string}
-     */
-    BagColorEnum: "beige" | "sage" | "olive" | "gray" | "natural" | "white";
     Category: {
       readonly id: number;
       /** Название */
@@ -299,11 +306,34 @@ export interface components {
       /** @default 1 */
       quantity: number;
     };
-    /** @description Конфигурация конструктора; цена считается на сервере (pricing.py). */
+    ConstructorOption: {
+      /** Слаг */
+      slug: string;
+      /** Название */
+      name: string;
+      /**
+       * Цена/наценка, ₽
+       * Format: decimal
+       */
+      price?: string;
+      /** Цвет (hex) */
+      color_hex?: string;
+    };
+    /** @description Ответ /constructor/options/: опции, сгруппированные по типу. */
+    ConstructorOptionsResponse: {
+      sizes: components["schemas"]["ConstructorOption"][];
+      bag_colors: components["schemas"]["ConstructorOption"][];
+      zipper_colors: components["schemas"]["ConstructorOption"][];
+      addons: components["schemas"]["ConstructorOption"][];
+    };
+    /**
+     * @description Конфигурация конструктора. Слаги валидируются по БД
+     *     (catalog.ConstructorOption) в pricing.resolve_config при создании заказа.
+     */
     CustomConfig: {
-      size: components["schemas"]["SizeEnum"];
-      bag_color: components["schemas"]["BagColorEnum"];
-      zipper_color: components["schemas"]["ZipperColorEnum"];
+      size: string;
+      bag_color: string;
+      zipper_color: string;
       /** @default false */
       tassel: boolean;
     };
@@ -494,13 +524,6 @@ export interface components {
       consent: boolean;
     };
     /**
-     * @description * `small` - small
-     *     * `medium` - medium
-     *     * `large` - large
-     * @enum {string}
-     */
-    SizeEnum: "small" | "medium" | "large";
-    /**
      * @description * `new` - Новый
      *     * `confirmed` - Подтверждён
      *     * `shipped` - Отправлен
@@ -542,15 +565,6 @@ export interface components {
        */
       readonly date_joined: string;
     };
-    /**
-     * @description * `gold` - gold
-     *     * `silver` - silver
-     *     * `bronze` - bronze
-     *     * `black` - black
-     *     * `beige` - beige
-     * @enum {string}
-     */
-    ZipperColorEnum: "gold" | "silver" | "bronze" | "black" | "beige";
   };
   responses: never;
   parameters: never;
@@ -790,6 +804,25 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["Category"];
+        };
+      };
+    };
+  };
+  constructor_options_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ConstructorOptionsResponse"];
         };
       };
     };
