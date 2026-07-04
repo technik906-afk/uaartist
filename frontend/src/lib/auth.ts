@@ -34,7 +34,16 @@ export interface Profile {
   email: string;
   first_name: string;
   last_name: string;
+  phone: string;
   date_joined: string;
+}
+
+export interface RegisterData {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  consent: boolean;
 }
 
 async function jsonOrThrow(response: Response) {
@@ -43,12 +52,12 @@ async function jsonOrThrow(response: Response) {
   return data;
 }
 
-export async function registerAccount(email: string, password: string) {
+export async function registerAccount(payload: RegisterData) {
   const data = await jsonOrThrow(
     await fetch(`${API_BASE}/auth/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(payload),
     })
   );
   useAuth.getState().setTokens(data.access, data.refresh);

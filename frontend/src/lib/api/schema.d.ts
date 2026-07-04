@@ -408,11 +408,14 @@ export interface components {
       readonly in_stock: boolean;
       readonly attribute_values: components["schemas"]["AttributeValue"][];
     };
-    /** @description Регистрация по email: username = email (в стандартной модели User). */
+    /** @description Регистрация: email (= username), имя, телефон, пароль, согласие на ПДн. */
     Register: {
       /** Format: email */
       email: string;
       password: string;
+      name: string;
+      phone: string;
+      consent: boolean;
     };
     /**
      * @description * `small` - small
@@ -455,6 +458,8 @@ export interface components {
       readonly first_name: string;
       /** Фамилия */
       readonly last_name: string;
+      /** @default  */
+      readonly phone: string;
       /**
        * Дата регистрации
        * Format: date-time

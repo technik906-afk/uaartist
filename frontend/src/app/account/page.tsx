@@ -97,7 +97,9 @@ export default function AccountPage() {
 
         {profile && (
           <p style={{ marginBottom: 32, color: "#888" }}>
-            {profile.email} · с{" "}
+            {profile.first_name && `${profile.first_name} · `}
+            {profile.email}
+            {profile.phone && ` · ${profile.phone}`} · с{" "}
             {new Date(profile.date_joined).toLocaleDateString("ru-RU", {
               year: "numeric",
               month: "long",

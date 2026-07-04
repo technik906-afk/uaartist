@@ -15,7 +15,13 @@ TOKEN_URL = "/api/v1/auth/token/"
 ME_URL = "/api/v1/auth/me/"
 MY_ORDERS_URL = "/api/v1/orders/my/"
 
-CREDENTIALS = {"email": "user@example.com", "password": "Str0ng-Pass-2026"}
+CREDENTIALS = {
+    "email": "user@example.com",
+    "password": "Str0ng-Pass-2026",
+    "name": "Лев",
+    "phone": "+7 900 111-22-33",
+    "consent": True,
+}
 
 
 @pytest.fixture
@@ -66,6 +72,25 @@ class TestRegister:
         register(api, email="MiXeD@Example.COM")
         assert User.objects.filter(username="mixed@example.com").exists()
 
+    def test_name_and_phone_saved(self, api, db):
+        register(api)
+        user = User.objects.get(username=CREDENTIALS["email"])
+        assert user.first_name == "Лев"
+        assert user.profile.phone == "+7 900 111-22-33"
+        assert user.profile.personal_data_consent_at is not None
+
+    def test_without_consent_400(self, api, db):
+        response = register(api, consent=False)
+        assert response.status_code == 400
+        assert "согласие" in str(response.json()).lower()
+
+    def test_missing_consent_field_400(self, api, db):
+        payload = {k: v for k, v in CREDENTIALS.items() if k != "consent"}
+        assert api.post(REGISTER_URL, payload, format="json").status_code == 400
+
+    def test_bad_phone_400(self, api, db):
+        assert register(api, phone="не телефон").status_code == 400
+
 
 class TestLoginAndMe:
     def test_token_obtain_with_email_as_username(self, api, db):
@@ -86,6 +111,8 @@ class TestLoginAndMe:
         api.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
         data = api.get(ME_URL).json()
         assert data["email"] == CREDENTIALS["email"]
+        assert data["first_name"] == "Лев"
+        assert data["phone"] == "+7 900 111-22-33"
 
 
 class TestOrderBinding:

@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { createOrder, ApiError, type CheckoutItem } from "@/lib/api/client";
-import { useAuth } from "@/lib/auth";
+import { fetchProfile, useAuth, type Profile } from "@/lib/auth";
 import { cartTotal, formatPrice, useCart } from "@/lib/cart";
 import { useMounted } from "@/lib/hooks";
 
@@ -16,8 +16,28 @@ export default function CheckoutPage() {
   const mounted = useMounted();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Для залогиненного — предзаполняем форму данными профиля.
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(false);
 
-  if (!mounted) return null;
+  useEffect(() => {
+    if (!mounted || !access) return;
+    let cancelled = false;
+    setProfileLoading(true);
+    fetchProfile()
+      .then((p) => {
+        if (!cancelled) setProfile(p);
+      })
+      .catch(() => {}) // не удалось — оформит как гость
+      .finally(() => {
+        if (!cancelled) setProfileLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [mounted, access]);
+
+  if (!mounted || profileLoading) return null;
 
   if (items.length === 0) {
     return (
@@ -80,6 +100,24 @@ export default function CheckoutPage() {
           менеджером.
         </p>
 
+        {profile && (
+          <p
+            style={{
+              marginBottom: 16,
+              padding: "10px 14px",
+              background: "#f5f3f0",
+              borderRadius: 8,
+              fontSize: "0.9rem",
+            }}
+          >
+            Вы оформляете заказ как <strong>{profile.email}</strong> — заказ появится в{" "}
+            <Link href="/account" style={{ textDecoration: "underline" }}>
+              личном кабинете
+            </Link>
+            .
+          </p>
+        )}
+
         <form
           onSubmit={handleSubmit}
           className="order-modal-form"
@@ -92,11 +130,26 @@ export default function CheckoutPage() {
               placeholder="Имя"
               required
               minLength={2}
+              defaultValue={profile?.first_name ?? ""}
               className="form-input"
             />
-            <input name="phone" type="tel" placeholder="Телефон" required className="form-input" />
+            <input
+              name="phone"
+              type="tel"
+              placeholder="Телефон"
+              required
+              defaultValue={profile?.phone ?? ""}
+              className="form-input"
+            />
           </div>
-          <input name="email" type="email" placeholder="Email" required className="form-input" />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            defaultValue={profile?.email ?? ""}
+            className="form-input"
+          />
           <textarea
             name="comment"
             placeholder="Комментарий к заказу (адрес доставки, пожелания)"
