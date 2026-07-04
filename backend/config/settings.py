@@ -6,6 +6,7 @@ django-environ. For local development copy `.env.example` -> `.env` in the
 repository root; docker-compose injects the same variables into the container.
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -36,10 +37,12 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "drf_spectacular",
+    "rest_framework_simplejwt",
     # Local apps
     "apps.core",
     "apps.catalog",
     "apps.orders",
+    "apps.accounts",
 ]
 
 MIDDLEWARE = [
@@ -120,10 +123,27 @@ REST_FRAMEWORK = {
         "rest_framework.filters.OrderingFilter",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    # Применяется только к вьюхам с throttle_scope (сейчас — оформление заказа).
+    # Применяется только к вьюхам с throttle_scope.
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
-    "DEFAULT_THROTTLE_RATES": {"orders": "20/hour"},
+    "DEFAULT_THROTTLE_RATES": {"orders": "20/hour", "auth": "10/hour"},
+    # JWT: авторизованные запросы несут Authorization: Bearer <token>.
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
 }
+
+# --- JWT (simplejwt) ----------------------------------------------------------
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+}
+
+# --- Email --------------------------------------------------------------------
+# Dev: console backend (письма в stdout контейнера). Prod: SMTP через env.
+EMAIL_BACKEND = env(
+    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+)
+DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL", default="uaartist <noreply@uaartist.ru>")
 
 # --- Telegram notifications --------------------------------------------------
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")

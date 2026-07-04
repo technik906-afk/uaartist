@@ -4,6 +4,80 @@
  */
 
 export interface paths {
+  "/api/v1/auth/me/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Профиль текущего пользователя. */
+    get: operations["auth_me_retrieve"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/register/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Регистрация: создаёт пользователя и сразу выдаёт пару токенов (автологин). */
+    post: operations["auth_register_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/token/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * @description Takes a set of user credentials and returns an access and refresh JSON web
+     *     token pair to prove the authentication of those credentials.
+     */
+    post: operations["auth_token_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/token/refresh/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * @description Takes a refresh type JSON web token and returns an access type JSON web
+     *     token if the refresh token is valid.
+     */
+    post: operations["auth_token_refresh_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/categories/": {
     parameters: {
       query?: never;
@@ -64,8 +138,25 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    /** @description Оформление заказа (гостевой чекаут). Списка/деталей публично нет. */
+    /** @description Оформление заказа (гостевой чекаут) + история своих заказов. */
     post: operations["orders_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/orders/my/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Заказы текущего пользователя (только свои). */
+    get: operations["orders_my_list"];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -214,6 +305,21 @@ export interface components {
        */
       readonly created_at: string;
     };
+    PaginatedOrderReadList: {
+      /** @example 123 */
+      count: number;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?page=4
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?page=2
+       */
+      previous?: string | null;
+      results: components["schemas"]["OrderRead"][];
+    };
     PaginatedProductListList: {
       /** @example 123 */
       count: number;
@@ -302,6 +408,12 @@ export interface components {
       readonly in_stock: boolean;
       readonly attribute_values: components["schemas"]["AttributeValue"][];
     };
+    /** @description Регистрация по email: username = email (в стандартной модели User). */
+    Register: {
+      /** Format: email */
+      email: string;
+      password: string;
+    };
     /**
      * @description * `small` - small
      *     * `medium` - medium
@@ -318,6 +430,37 @@ export interface components {
      * @enum {string}
      */
     StatusEnum: "new" | "confirmed" | "shipped" | "done" | "cancelled";
+    TokenObtainPair: {
+      username: string;
+      password: string;
+      readonly access: string;
+      readonly refresh: string;
+    };
+    TokenPair: {
+      access: string;
+      refresh: string;
+    };
+    TokenRefresh: {
+      readonly access: string;
+      refresh: string;
+    };
+    User: {
+      readonly id: number;
+      /**
+       * Адрес электронной почты
+       * Format: email
+       */
+      readonly email: string;
+      /** Имя */
+      readonly first_name: string;
+      /** Фамилия */
+      readonly last_name: string;
+      /**
+       * Дата регистрации
+       * Format: date-time
+       */
+      readonly date_joined: string;
+    };
     /**
      * @description * `gold` - gold
      *     * `silver` - silver
@@ -336,6 +479,100 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  auth_me_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["User"];
+        };
+      };
+    };
+  };
+  auth_register_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Register"];
+        "application/x-www-form-urlencoded": components["schemas"]["Register"];
+        "multipart/form-data": components["schemas"]["Register"];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenPair"];
+        };
+      };
+    };
+  };
+  auth_token_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["TokenObtainPair"];
+        "application/x-www-form-urlencoded": components["schemas"]["TokenObtainPair"];
+        "multipart/form-data": components["schemas"]["TokenObtainPair"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenObtainPair"];
+        };
+      };
+    };
+  };
+  auth_token_refresh_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["TokenRefresh"];
+        "application/x-www-form-urlencoded": components["schemas"]["TokenRefresh"];
+        "multipart/form-data": components["schemas"]["TokenRefresh"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TokenRefresh"];
+        };
+      };
+    };
+  };
   categories_list: {
     parameters: {
       query?: never;
@@ -415,6 +652,34 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["OrderRead"];
+        };
+      };
+    };
+  };
+  orders_my_list: {
+    parameters: {
+      query?: {
+        /** @description Which field to use when ordering the results. */
+        ordering?: string;
+        /** @description A page number within the paginated result set. */
+        page?: number;
+        /** @description Number of results to return per page. */
+        page_size?: number;
+        /** @description A search term. */
+        search?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PaginatedOrderReadList"];
         };
       };
     };

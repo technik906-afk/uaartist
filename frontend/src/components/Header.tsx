@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
+import { useAuth } from "@/lib/auth";
 import { cartCount, useCart } from "@/lib/cart";
 import { useMounted } from "@/lib/hooks";
 
@@ -37,6 +38,9 @@ export default function Header() {
   // Гидрация: localStorage доступен только в браузере — счётчик рисуем после mount.
   const mounted = useMounted();
   const count = mounted ? cartCount(items) : 0;
+  const access = useAuth((s) => s.access);
+  const authHref = mounted && access ? "/account" : "/login";
+  const authLabel = mounted && access ? "Аккаунт" : "Войти";
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -60,6 +64,9 @@ export default function Header() {
             ))}
           </nav>
           <div className="header-actions">
+            <Link href={authHref} className="filter-btn" style={{ marginRight: 12 }}>
+              {authLabel}
+            </Link>
             <Link href="/cart" className="btn-cart-header" aria-label="Корзина">
               <CartIcon />
               <span className="cart-count">{count}</span>

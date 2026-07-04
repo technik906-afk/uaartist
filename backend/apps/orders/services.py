@@ -18,7 +18,7 @@ from apps.catalog.models import ProductVariant
 
 from . import pricing
 from .models import Order, OrderItem
-from .notifications import notify_new_order
+from .notifications import notify_new_order, send_order_email
 
 
 def create_order(*, customer: dict, items: list[dict], user=None) -> Order:
@@ -98,6 +98,7 @@ def create_order(*, customer: dict, items: list[dict], user=None) -> Order:
         order.total = total
         order.save(update_fields=["total"])
 
-    # после успешного коммита; сбой уведомления заказ не валит
+    # после успешного коммита; сбой уведомлений заказ не валит
     notify_new_order(order)
+    send_order_email(order)
     return order

@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { createOrder, ApiError, type CheckoutItem } from "@/lib/api/client";
+import { useAuth } from "@/lib/auth";
 import { cartTotal, formatPrice, useCart } from "@/lib/cart";
 import { useMounted } from "@/lib/hooks";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, clear } = useCart();
+  const access = useAuth((s) => s.access);
   const mounted = useMounted();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +53,7 @@ export default function CheckoutPage() {
     };
 
     try {
-      const order = await createOrder(payload);
+      const order = await createOrder(payload, access);
       sessionStorage.setItem("uaartist_last_order", JSON.stringify(order));
       clear();
       router.push("/thank-you");

@@ -4,8 +4,35 @@ import logging
 
 import requests
 from django.conf import settings
+from django.core.mail import send_mail
 
 logger = logging.getLogger(__name__)
+
+
+def send_order_email(order) -> bool:
+    """Письмо-подтверждение покупателю. Сбой не валит заказ."""
+    lines = [f"Здравствуйте, {order.customer_name}!", "", f"Ваш заказ #{order.pk} принят:", ""]
+    for item in order.items.all():
+        lines.append(f"— {item.product_name} × {item.quantity} = {item.line_total:.0f} ₽")
+    lines += [
+        "",
+        f"Итого: {order.total:.0f} ₽",
+        "",
+        "Мы свяжемся с вами для подтверждения.",
+        "",
+        "uaartist",
+    ]
+    try:
+        send_mail(
+            subject=f"uaartist: заказ #{order.pk} принят",
+            message="\n".join(lines),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[order.customer_email],
+        )
+        return True
+    except Exception:
+        logger.exception("Не удалось отправить email-подтверждение заказа #%s", order.pk)
+        return False
 
 
 def send_telegram_message(text: str) -> bool:
