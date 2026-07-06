@@ -114,6 +114,14 @@ CORS_ALLOWED_ORIGINS = env.list(
     default=["http://localhost:3000", "http://127.0.0.1:3000"],
 )
 
+# --- Работа за reverse-proxy (nginx на проде) ---------------------------------
+# Django должен доверять X-Forwarded-Proto от nginx, иначе не поймёт, что HTTPS.
+if env.bool("DJANGO_BEHIND_PROXY", default=False):
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Django 4+: для POST в админку по HTTPS нужен явный список доверенных origin.
+CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=[])
+
 # --- Django REST Framework --------------------------------------------------
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "apps.core.pagination.DefaultPagination",
