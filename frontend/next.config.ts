@@ -2,12 +2,17 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Фото товаров отдаёт Django (MEDIA_URL). В проде добавить домен API.
+    // Фото товаров отдаёт Django (MEDIA_URL): dev — localhost, прод — api-домен.
     remotePatterns: [
       {
         protocol: "http",
         hostname: "localhost",
         port: "8000",
+        pathname: "/media/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.uaartist.ru",
         pathname: "/media/**",
       },
     ],
