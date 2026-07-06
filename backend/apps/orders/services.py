@@ -15,13 +15,32 @@ from django.db import transaction
 from rest_framework import serializers
 
 from apps.catalog.models import ProductVariant
+from apps.delivery import quotes as delivery_quotes
 
 from . import pricing
 from .models import Order, OrderItem
 from .notifications import notify_new_order, send_order_email
 
 
-def create_order(*, customer: dict, items: list[dict], user=None) -> Order:
+def _resolve_delivery(delivery: dict, items: list[dict]) -> dict:
+    """Серверная цена доставки; клиентские цифры игнорируются."""
+    weight = delivery_quotes.cart_weight_grams(items)
+    cost = delivery_quotes.price_for_method(
+        delivery["method"],
+        delivery.get("city_code"),
+        delivery.get("postcode") or None,
+        weight,
+    )
+    if cost is None:
+        raise serializers.ValidationError(
+            {"delivery": "Не удалось рассчитать доставку. Обновите страницу и попробуйте снова."}
+        )
+    return {"cost": cost}
+
+
+def create_order(*, customer: dict, items: list[dict], delivery: dict, user=None) -> Order:
+    resolved_delivery = _resolve_delivery(delivery, items)
+
     with transaction.atomic():
         order = Order.objects.create(
             user=user if (user and user.is_authenticated) else None,
@@ -29,6 +48,13 @@ def create_order(*, customer: dict, items: list[dict], user=None) -> Order:
             customer_phone=customer["phone"],
             customer_email=customer["email"],
             comment=customer.get("comment", ""),
+            delivery_method=delivery["method"],
+            delivery_cost=resolved_delivery["cost"],
+            delivery_city=delivery.get("city_name", ""),
+            delivery_postcode=delivery.get("postcode", "") or "",
+            delivery_address=delivery.get("address", ""),
+            delivery_pvz_code=delivery.get("pvz_code", ""),
+            delivery_pvz_address=delivery.get("pvz_address", ""),
         )
 
         # Блокируем задействованные варианты одним запросом (сортировка по id —
@@ -95,7 +121,7 @@ def create_order(*, customer: dict, items: list[dict], user=None) -> Order:
 
         ProductVariant.objects.bulk_update([v for v in locked_variants.values()], ["stock"])
         OrderItem.objects.bulk_create(order_items)
-        order.total = total
+        order.total = total + order.delivery_cost
         order.save(update_fields=["total"])
 
     # после успешного коммита; сбой уведомлений заказ не валит

@@ -205,6 +205,9 @@ class ProductVariant(models.Model):
     sku = models.CharField("Артикул (SKU)", max_length=64, unique=True)
     price = models.DecimalField("Цена, ₽", max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField("Остаток", default=0)
+    weight_grams = models.PositiveIntegerField(
+        "Вес с упаковкой, г", default=300, help_text="Для расчёта доставки"
+    )
     is_active = models.BooleanField("Активен", default=True)
     attribute_values = models.ManyToManyField(
         AttributeValue,

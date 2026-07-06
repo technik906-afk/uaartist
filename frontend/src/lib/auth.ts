@@ -8,7 +8,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { API_BASE, ApiError, createOrder, type Checkout, type OrderRead } from "@/lib/api/client";
+import {
+  API_BASE,
+  ApiError,
+  createOrder,
+  type CheckoutPayload,
+  type OrderRead,
+} from "@/lib/api/client";
 
 interface AuthState {
   access: string | null;
@@ -162,7 +168,7 @@ export async function fetchMyOrders(): Promise<{ count: number; results: OrderRe
  * (refresh при протухшем access); если токены мертвы даже после refresh —
  * заказ уходит как гостевой (заказ важнее привязки к аккаунту).
  */
-export async function submitOrder(payload: Checkout): Promise<OrderRead> {
+export async function submitOrder(payload: CheckoutPayload): Promise<OrderRead> {
   if (useAuth.getState().access) {
     const response = await authFetch("/orders/", {
       method: "POST",

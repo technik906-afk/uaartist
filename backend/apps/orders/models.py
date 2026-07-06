@@ -46,6 +46,24 @@ class Order(models.Model):
     customer_email = models.EmailField("Email")
     comment = models.TextField("Комментарий (адрес, пожелания)", blank=True)
 
+    # --- Доставка (снапшот на момент заказа) ---
+    class DeliveryMethod(models.TextChoices):
+        CDEK_PVZ = "cdek_pvz", "СДЭК — пункт выдачи"
+        CDEK_COURIER = "cdek_courier", "СДЭК — курьер"
+        POST = "post", "Почта России"
+
+    delivery_method = models.CharField(
+        "Способ доставки", max_length=20, choices=DeliveryMethod, blank=True
+    )
+    delivery_cost = models.DecimalField(
+        "Стоимость доставки, ₽", max_digits=10, decimal_places=2, default=0
+    )
+    delivery_city = models.CharField("Город", max_length=150, blank=True)
+    delivery_postcode = models.CharField("Индекс", max_length=6, blank=True)
+    delivery_address = models.CharField("Адрес (улица, дом, кв.)", max_length=300, blank=True)
+    delivery_pvz_code = models.CharField("Код ПВЗ", max_length=32, blank=True)
+    delivery_pvz_address = models.CharField("Адрес ПВЗ", max_length=300, blank=True)
+
     total = models.DecimalField("Сумма, ₽", max_digits=10, decimal_places=2, default=0)
 
     created_at = models.DateTimeField("Создан", auto_now_add=True)

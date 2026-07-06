@@ -20,7 +20,7 @@ class ProductImageInline(admin.TabularInline):
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
     extra = 1
-    fields = ["sku", "price", "stock", "is_active", "attribute_values"]
+    fields = ["sku", "price", "stock", "weight_grams", "is_active", "attribute_values"]
     filter_horizontal = ["attribute_values"]
 
 

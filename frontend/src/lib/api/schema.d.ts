@@ -184,6 +184,57 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/delivery/cities/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Подсказки городов (справочник СДЭК). */
+    get: operations["delivery_cities_list"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/delivery/points/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Пункты выдачи СДЭК в городе. */
+    get: operations["delivery_points_list"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/delivery/quote/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Варианты доставки с ценами; вес корзины считает сервер. */
+    post: operations["delivery_quote_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/health/": {
     parameters: {
       query?: never;
@@ -338,6 +389,8 @@ export interface components {
       /** Цвет (hex) */
       color_hex?: string;
     };
+    /** @enum {unknown} */
+    BlankEnum: "";
     Category: {
       readonly id: number;
       /** Название */
@@ -353,12 +406,17 @@ export interface components {
     Checkout: {
       customer: components["schemas"]["Customer"];
       items: components["schemas"]["CheckoutItem"][];
+      delivery: components["schemas"]["Delivery"];
     };
     CheckoutItem: {
       variant_id?: number;
       custom?: components["schemas"]["CustomConfig"];
       /** @default 1 */
       quantity: number;
+    };
+    City: {
+      code: number;
+      full_name: string;
     };
     ConstructorOption: {
       /** Слаг */
@@ -399,9 +457,36 @@ export interface components {
       /** @default  */
       comment: string;
     };
+    /** @description Доставка: стоимость клиент не передаёт — сервер посчитает сам. */
+    Delivery: {
+      method: components["schemas"]["MethodEnum"];
+      city_code?: number;
+      city_name: string;
+      postcode?: string;
+      /** @default  */
+      address: string;
+      /** @default  */
+      pvz_code: string;
+      /** @default  */
+      pvz_address: string;
+    };
+    /**
+     * @description * `cdek_pvz` - СДЭК — пункт выдачи
+     *     * `cdek_courier` - СДЭК — курьер
+     *     * `post` - Почта России
+     * @enum {string}
+     */
+    DeliveryMethodEnum: "cdek_pvz" | "cdek_courier" | "post";
     Detail: {
       detail: string;
     };
+    /**
+     * @description * `cdek_pvz` - cdek_pvz
+     *     * `cdek_courier` - cdek_courier
+     *     * `post` - post
+     * @enum {string}
+     */
+    MethodEnum: "cdek_pvz" | "cdek_courier" | "post";
     OrderItemRead: {
       /** Название */
       product_name: string;
@@ -435,6 +520,24 @@ export interface components {
       customer_email: string;
       /** Комментарий (адрес, пожелания) */
       comment?: string;
+      /** Способ доставки */
+      delivery_method?:
+        components["schemas"]["DeliveryMethodEnum"] | components["schemas"]["BlankEnum"];
+      /**
+       * Стоимость доставки, ₽
+       * Format: decimal
+       */
+      delivery_cost?: string;
+      /** Город */
+      delivery_city?: string;
+      /** Индекс */
+      delivery_postcode?: string;
+      /** Адрес (улица, дом, кв.) */
+      delivery_address?: string;
+      /** Код ПВЗ */
+      delivery_pvz_code?: string;
+      /** Адрес ПВЗ */
+      delivery_pvz_address?: string;
       /**
        * Сумма, ₽
        * Format: decimal
@@ -548,6 +651,12 @@ export interface components {
       payment_status: string;
       payment: components["schemas"]["PaymentRead"] | null;
     };
+    Point: {
+      code: string;
+      name: string;
+      address: string;
+      work_time: string;
+    };
     /** @description Full shape for the product page: description, gallery, variants, SEO. */
     ProductDetail: {
       readonly id: number;
@@ -613,6 +722,20 @@ export interface components {
       stock?: number;
       readonly in_stock: boolean;
       readonly attribute_values: components["schemas"]["AttributeValue"][];
+    };
+    Quote: {
+      method: string;
+      name: string;
+      /** Format: double */
+      price: number;
+      days: string;
+    };
+    QuoteRequest: {
+      city_code?: number;
+      postcode?: string;
+      items: {
+        [key: string]: unknown;
+      }[];
     };
     /** @description Регистрация: email (= username), имя, телефон, пароль, согласие на ПДн. */
     Register: {
@@ -914,6 +1037,69 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["ConstructorOptionsResponse"];
+        };
+      };
+    };
+  };
+  delivery_cities_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["City"][];
+        };
+      };
+    };
+  };
+  delivery_points_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Point"][];
+        };
+      };
+    };
+  };
+  delivery_quote_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["QuoteRequest"];
+        "application/x-www-form-urlencoded": components["schemas"]["QuoteRequest"];
+        "multipart/form-data": components["schemas"]["QuoteRequest"];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Quote"][];
         };
       };
     };

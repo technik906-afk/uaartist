@@ -40,11 +40,41 @@ class CheckoutItemSerializer(serializers.Serializer):
         return attrs
 
 
+class DeliverySerializer(serializers.Serializer):
+    """Доставка: стоимость клиент не передаёт — сервер посчитает сам."""
+
+    method = serializers.ChoiceField(choices=["cdek_pvz", "cdek_courier", "post"])
+    city_code = serializers.IntegerField(required=False)  # код города СДЭК
+    city_name = serializers.CharField(max_length=150)
+    postcode = serializers.RegexField(regex=r"^\d{6}$", required=False, allow_blank=True)
+    address = serializers.CharField(max_length=300, required=False, allow_blank=True, default="")
+    pvz_code = serializers.CharField(max_length=32, required=False, allow_blank=True, default="")
+    pvz_address = serializers.CharField(
+        max_length=300, required=False, allow_blank=True, default=""
+    )
+
+    def validate(self, attrs):
+        method = attrs["method"]
+        if method in ("cdek_pvz", "cdek_courier") and not attrs.get("city_code"):
+            raise serializers.ValidationError({"city_code": "Выберите город из списка."})
+        if method == "cdek_pvz" and not attrs.get("pvz_code"):
+            raise serializers.ValidationError({"pvz_code": "Выберите пункт выдачи."})
+        if method == "cdek_courier" and not attrs.get("address"):
+            raise serializers.ValidationError({"address": "Укажите адрес доставки."})
+        if method == "post":
+            if not attrs.get("postcode"):
+                raise serializers.ValidationError({"postcode": "Укажите почтовый индекс."})
+            if not attrs.get("address"):
+                raise serializers.ValidationError({"address": "Укажите адрес доставки."})
+        return attrs
+
+
 class CheckoutSerializer(serializers.Serializer):
     """Входные данные оформления заказа. Цены клиент не передаёт."""
 
     customer = CustomerSerializer()
     items = CheckoutItemSerializer(many=True, allow_empty=False)
+    delivery = DeliverySerializer()
 
 
 class OrderItemReadSerializer(serializers.ModelSerializer):
@@ -68,6 +98,13 @@ class OrderReadSerializer(serializers.ModelSerializer):
             "customer_phone",
             "customer_email",
             "comment",
+            "delivery_method",
+            "delivery_cost",
+            "delivery_city",
+            "delivery_postcode",
+            "delivery_address",
+            "delivery_pvz_code",
+            "delivery_pvz_address",
             "total",
             "items",
             "created_at",

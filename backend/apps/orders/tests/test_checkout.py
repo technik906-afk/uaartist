@@ -48,7 +48,13 @@ def variant(db):
 
 
 def checkout(api, items, customer=CUSTOMER):
-    return api.post(CHECKOUT_URL, {"customer": customer, "items": items}, format="json")
+    from conftest import DELIVERY_PAYLOAD
+
+    return api.post(
+        CHECKOUT_URL,
+        {"customer": customer, "items": items, "delivery": DELIVERY_PAYLOAD},
+        format="json",
+    )
 
 
 class TestHappyPath:

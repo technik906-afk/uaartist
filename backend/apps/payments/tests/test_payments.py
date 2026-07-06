@@ -91,9 +91,15 @@ def order(db):
         product=product, sku="BEZH-1", price=Decimal("2490"), stock=5
     )
     api = APIClient()
+    from conftest import DELIVERY_PAYLOAD
+
     response = api.post(
         "/api/v1/orders/",
-        {"customer": CUSTOMER, "items": [{"variant_id": variant.pk, "quantity": 2}]},
+        {
+            "customer": CUSTOMER,
+            "items": [{"variant_id": variant.pk, "quantity": 2}],
+            "delivery": DELIVERY_PAYLOAD,
+        },
         format="json",
     )
     assert response.status_code == 201

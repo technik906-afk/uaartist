@@ -31,9 +31,15 @@ def _mute_notifications(monkeypatch):
 
 
 def checkout_custom(api, config=CONFIG, quantity=1):
+    from conftest import DELIVERY_PAYLOAD
+
     return api.post(
         ORDERS_URL,
-        {"customer": CUSTOMER, "items": [{"custom": config, "quantity": quantity}]},
+        {
+            "customer": CUSTOMER,
+            "items": [{"custom": config, "quantity": quantity}],
+            "delivery": DELIVERY_PAYLOAD,
+        },
         format="json",
     )
 

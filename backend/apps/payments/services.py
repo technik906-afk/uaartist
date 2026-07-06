@@ -36,20 +36,29 @@ def _configure():
 
 
 def _build_receipt(order) -> dict:
-    return {
-        "customer": {"email": order.customer_email},
-        "items": [
+    items = [
+        {
+            "description": item.product_name[:128],
+            "quantity": str(item.quantity),
+            "amount": {"value": str(item.price), "currency": "RUB"},
+            "vat_code": settings.YOOKASSA_VAT_CODE,
+            "payment_subject": "commodity",
+            "payment_mode": "full_payment",
+        }
+        for item in order.items.all()
+    ]
+    if order.delivery_cost and order.delivery_cost > 0:
+        items.append(
             {
-                "description": item.product_name[:128],
-                "quantity": str(item.quantity),
-                "amount": {"value": str(item.price), "currency": "RUB"},
+                "description": f"Доставка ({order.get_delivery_method_display()})"[:128],
+                "quantity": "1",
+                "amount": {"value": str(order.delivery_cost), "currency": "RUB"},
                 "vat_code": settings.YOOKASSA_VAT_CODE,
-                "payment_subject": "commodity",
+                "payment_subject": "service",
                 "payment_mode": "full_payment",
             }
-            for item in order.items.all()
-        ],
-    }
+        )
+    return {"customer": {"email": order.customer_email}, "items": items}
 
 
 def create_payment(order) -> Payment:

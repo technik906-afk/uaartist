@@ -117,11 +117,14 @@ class TestLoginAndMe:
 
 class TestOrderBinding:
     def _checkout(self, api, variant):
+        from conftest import DELIVERY_PAYLOAD
+
         return api.post(
             "/api/v1/orders/",
             {
                 "customer": {"name": "Анна", "phone": "+7 900 000-00-00", "email": "a@b.io"},
                 "items": [{"variant_id": variant.pk, "quantity": 1}],
+                "delivery": DELIVERY_PAYLOAD,
             },
             format="json",
         )

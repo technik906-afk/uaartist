@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { ApiError, createPayment, type CheckoutItem } from "@/lib/api/client";
+import DeliveryPicker, { type DeliverySelection } from "@/components/DeliveryPicker";
 import { fetchProfile, submitOrder, useAuth, type Profile } from "@/lib/auth";
 import { cartTotal, formatPrice, useCart } from "@/lib/cart";
 import { useMounted } from "@/lib/hooks";
@@ -16,6 +17,7 @@ export default function CheckoutPage() {
   const mounted = useMounted();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [delivery, setDelivery] = useState<DeliverySelection | null>(null);
   // Для залогиненного — предзаполняем форму данными профиля.
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileReady, setProfileReady] = useState(false);
@@ -57,6 +59,12 @@ export default function CheckoutPage() {
     setError(null);
     setSubmitting(true);
 
+    if (!delivery) {
+      setError("Выберите способ доставки.");
+      setSubmitting(false);
+      return;
+    }
+
     const form = new FormData(e.currentTarget);
     const payload = {
       customer: {
@@ -70,6 +78,15 @@ export default function CheckoutPage() {
           ? { variant_id: item.variantId, quantity: item.quantity }
           : { custom: item.custom, quantity: item.quantity }
       ),
+      delivery: {
+        method: delivery.method,
+        city_code: delivery.city_code,
+        city_name: delivery.city_name,
+        postcode: delivery.postcode,
+        address: delivery.address,
+        pvz_code: delivery.pvz_code,
+        pvz_address: delivery.pvz_address,
+      },
     };
 
     try {
@@ -107,8 +124,14 @@ export default function CheckoutPage() {
           Оформление заказа
         </h1>
         <p style={{ marginBottom: 24, color: "#888" }}>
-          {items.length} поз. на {formatPrice(cartTotal(items))}. Итоговая сумма будет подтверждена
-          менеджером.
+          Товары: {formatPrice(cartTotal(items))}
+          {delivery && <> · доставка: {formatPrice(delivery.price)}</>}
+          {delivery && (
+            <strong style={{ color: "#333" }}>
+              {" "}
+              · итого: {formatPrice(cartTotal(items) + delivery.price)}
+            </strong>
+          )}
         </p>
 
         {profile && (
@@ -161,9 +184,18 @@ export default function CheckoutPage() {
             defaultValue={profile?.email ?? ""}
             className="form-input"
           />
+          <DeliveryPicker
+            items={items.map<CheckoutItem>((item) =>
+              item.variantId
+                ? { variant_id: item.variantId, quantity: item.quantity }
+                : { custom: item.custom, quantity: item.quantity }
+            )}
+            onChange={setDelivery}
+          />
+
           <textarea
             name="comment"
-            placeholder="Комментарий к заказу (адрес доставки, пожелания)"
+            placeholder="Комментарий к заказу (пожелания)"
             rows={3}
             className="form-input"
           />
@@ -174,8 +206,17 @@ export default function CheckoutPage() {
             </p>
           )}
 
-          <button type="submit" className="btn btn-primary btn-full" disabled={submitting}>
-            {submitting ? "Отправляем..." : "Подтвердить заказ"}
+          <button
+            type="submit"
+            className="btn btn-primary btn-full"
+            disabled={submitting || !delivery}
+            title={!delivery ? "Выберите способ доставки" : undefined}
+          >
+            {submitting
+              ? "Отправляем..."
+              : delivery
+                ? `Подтвердить заказ — ${formatPrice(cartTotal(items) + delivery.price)}`
+                : "Выберите доставку"}
           </button>
         </form>
       </div>

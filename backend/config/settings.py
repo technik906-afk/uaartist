@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "apps.orders",
     "apps.accounts",
     "apps.payments",
+    "apps.delivery",
 ]
 
 MIDDLEWARE = [
@@ -162,6 +163,14 @@ DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL", default="uaartist <noreply
 
 # База фронтенда — для ссылок в письмах (сброс пароля) и return_url оплаты.
 FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:3000")
+
+# --- Доставка -----------------------------------------------------------------
+# СДЭК API v2 (ЛК бизнеса → Интеграция). Пусто = способ недоступен на витрине.
+CDEK_ACCOUNT = env("CDEK_ACCOUNT", default="")
+CDEK_SECURE_PASSWORD = env("CDEK_SECURE_PASSWORD", default="")
+CDEK_FROM_CITY_CODE = env.int("CDEK_FROM_CITY_CODE", default=403)  # Череповец
+# Почта России: открытый тарификатор, индекс отправления
+POCHTA_FROM_POSTCODE = env("POCHTA_FROM_POSTCODE", default="162600")  # Череповец
 
 # --- ЮKassa -------------------------------------------------------------------
 # Пустые ключи = онлайн-оплата отключена (заказы принимаются без неё).

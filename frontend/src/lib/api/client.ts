@@ -74,12 +74,69 @@ export function getConstructorOptions(): Promise<ConstructorOptions> {
   return request<ConstructorOptions>(`/constructor/options/`);
 }
 
-export function createOrder(payload: Checkout, accessToken?: string | null): Promise<OrderRead> {
+export interface DeliveryPayload {
+  method: "cdek_pvz" | "cdek_courier" | "post";
+  city_code?: number;
+  city_name: string;
+  postcode?: string;
+  address?: string;
+  pvz_code?: string;
+  pvz_address?: string;
+}
+
+/** Payload чекаута (валидацию делает сервер — тип для удобства фронта). */
+export interface CheckoutPayload {
+  customer: { name: string; phone: string; email: string; comment?: string };
+  items: CheckoutItem[];
+  delivery: DeliveryPayload;
+}
+
+export function createOrder(
+  payload: CheckoutPayload,
+  accessToken?: string | null
+): Promise<OrderRead> {
   return request<OrderRead>(`/orders/`, {
     method: "POST",
     body: JSON.stringify(payload),
     // С токеном заказ привяжется к аккаунту; без — гостевой чекаут.
     headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
+  });
+}
+
+// --- Доставка ---
+export interface DeliveryCity {
+  code: number;
+  full_name: string;
+}
+export interface DeliveryPoint {
+  code: string;
+  name: string;
+  address: string;
+  work_time: string;
+}
+export interface DeliveryQuote {
+  method: "cdek_pvz" | "cdek_courier" | "post";
+  name: string;
+  price: number;
+  days: string;
+}
+
+export function getDeliveryCities(q: string): Promise<DeliveryCity[]> {
+  return request<DeliveryCity[]>(`/delivery/cities/?q=${encodeURIComponent(q)}`);
+}
+
+export function getDeliveryPoints(cityCode: number): Promise<DeliveryPoint[]> {
+  return request<DeliveryPoint[]>(`/delivery/points/?city_code=${cityCode}`);
+}
+
+export function getDeliveryQuotes(payload: {
+  city_code?: number;
+  postcode?: string;
+  items: CheckoutItem[];
+}): Promise<DeliveryQuote[]> {
+  return request<DeliveryQuote[]>(`/delivery/quote/`, {
+    method: "POST",
+    body: JSON.stringify(payload),
   });
 }
 

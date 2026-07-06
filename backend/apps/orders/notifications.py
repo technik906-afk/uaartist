@@ -65,6 +65,14 @@ def notify_new_order(order) -> bool:
                 f"   (размер: {cfg.get('size')}, цвет: {cfg.get('bag_color')}, "
                 f"молния: {cfg.get('zipper_color')}, кисточка: {tassel})"
             )
+    if order.delivery_method:
+        place = order.delivery_pvz_address or order.delivery_address
+        lines += [
+            "",
+            f"Доставка: {order.get_delivery_method_display()} — {order.delivery_cost:.0f} ₽",
+            f"Куда: {order.delivery_city}{', ' + place if place else ''}"
+            + (f" (индекс {order.delivery_postcode})" if order.delivery_postcode else ""),
+        ]
     lines += [
         "",
         f"Итого: {order.total:.0f} ₽",
