@@ -18,6 +18,8 @@ export type OrderRead = components["schemas"]["OrderRead"];
 export type PaginatedProducts = components["schemas"]["PaginatedProductListList"];
 export type ConstructorOption = components["schemas"]["ConstructorOption"];
 export type ConstructorOptions = components["schemas"]["ConstructorOptionsResponse"];
+export type PaymentRead = components["schemas"]["PaymentRead"];
+export type PaymentStatusResponse = components["schemas"]["PaymentStatusResponse"];
 
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api/v1";
 
@@ -79,6 +81,20 @@ export function createOrder(payload: Checkout, accessToken?: string | null): Pro
     // С токеном заказ привяжется к аккаунту; без — гостевой чекаут.
     headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
   });
+}
+
+/** Создать платёж ЮKassa (или переиспользовать незавершённый). */
+export function createPayment(orderId: number, email: string): Promise<PaymentRead> {
+  return request<PaymentRead>(`/payments/create/`, {
+    method: "POST",
+    body: JSON.stringify({ order_id: orderId, email }),
+  });
+}
+
+/** Статус оплаты заказа (поллинг со страницы «Спасибо»). */
+export function getPaymentStatus(orderId: number, email: string): Promise<PaymentStatusResponse> {
+  const params = new URLSearchParams({ order_id: String(orderId), email });
+  return request<PaymentStatusResponse>(`/payments/status/?${params}`);
 }
 
 export { ApiError };

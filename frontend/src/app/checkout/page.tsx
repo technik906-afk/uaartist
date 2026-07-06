@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { ApiError, type CheckoutItem } from "@/lib/api/client";
+import { ApiError, createPayment, type CheckoutItem } from "@/lib/api/client";
 import { fetchProfile, submitOrder, useAuth, type Profile } from "@/lib/auth";
 import { cartTotal, formatPrice, useCart } from "@/lib/cart";
 import { useMounted } from "@/lib/hooks";
@@ -76,6 +76,17 @@ export default function CheckoutPage() {
       const order = await submitOrder(payload);
       sessionStorage.setItem("uaartist_last_order", JSON.stringify(order));
       clear();
+      // Пытаемся сразу отправить на оплату; если оплата недоступна —
+      // заказ всё равно принят, менеджер свяжется (страница «Спасибо»).
+      try {
+        const payment = await createPayment(order.id, payload.customer.email);
+        if (payment.confirmation_url) {
+          window.location.assign(payment.confirmation_url);
+          return;
+        }
+      } catch {
+        // онлайн-оплата выключена или недоступна — не блокируем заказ
+      }
       router.push("/thank-you");
     } catch (err) {
       if (err instanceof ApiError && err.status === 400) {

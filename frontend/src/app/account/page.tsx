@@ -17,6 +17,12 @@ const STATUS_LABELS: Record<string, string> = {
   cancelled: "Отменён",
 };
 
+const PAYMENT_LABELS: Record<string, { text: string; color: string }> = {
+  pending: { text: "Ожидает оплаты", color: "#a67c52" },
+  paid: { text: "Оплачен", color: "#2a7d2a" },
+  failed: { text: "Оплата не прошла", color: "#c00" },
+};
+
 export default function AccountPage() {
   const router = useRouter();
   const mounted = useMounted();
@@ -136,6 +142,10 @@ export default function AccountPage() {
               </div>
               <p style={{ fontSize: "0.85rem", color: "#888", margin: "4px 0" }}>
                 {STATUS_LABELS[order.status ?? "new"] ?? order.status}
+                {" · "}
+                <span style={{ color: PAYMENT_LABELS[order.payment_status ?? "pending"]?.color }}>
+                  {PAYMENT_LABELS[order.payment_status ?? "pending"]?.text ?? order.payment_status}
+                </span>
               </p>
               <ul style={{ fontSize: "0.9rem", paddingLeft: 18 }}>
                 {order.items.map((item, i) => (

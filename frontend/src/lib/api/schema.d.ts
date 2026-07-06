@@ -235,6 +235,60 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/payments/create/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Создать (или переиспользовать незавершённый) платёж по заказу. */
+    post: operations["payments_create_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payments/status/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Статус оплаты заказа (для поллинга со страницы «Спасибо»). */
+    get: operations["payments_status_retrieve"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payments/yookassa/webhook/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * @description Приём уведомлений ЮKassa. Всегда 200 (иначе провайдер ретраит),
+     *     статус перечитывается из API — телу уведомления не доверяем.
+     */
+    post: operations["payments_yookassa_webhook_create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/products/": {
     parameters: {
       query?: never;
@@ -367,7 +421,7 @@ export interface components {
     OrderRead: {
       readonly id: number;
       /** Статус */
-      status?: components["schemas"]["StatusEnum"];
+      status?: components["schemas"]["OrderReadStatusEnum"];
       /** Статус оплаты */
       payment_status?: components["schemas"]["PaymentStatusEnum"];
       /** Имя */
@@ -393,6 +447,15 @@ export interface components {
        */
       readonly created_at: string;
     };
+    /**
+     * @description * `new` - Новый
+     *     * `confirmed` - Подтверждён
+     *     * `shipped` - Отправлен
+     *     * `done` - Завершён
+     *     * `cancelled` - Отменён
+     * @enum {string}
+     */
+    OrderReadStatusEnum: "new" | "confirmed" | "shipped" | "done" | "cancelled";
     PaginatedOrderReadList: {
       /** @example 123 */
       count: number;
@@ -441,6 +504,38 @@ export interface components {
       first_name?: string;
       phone?: string;
     };
+    /** @description Создание платежа: заказ + email для лёгкой проверки принадлежности. */
+    PaymentCreate: {
+      order_id: number;
+      /** Format: email */
+      email: string;
+    };
+    PaymentRead: {
+      /** ID платежа у провайдера */
+      provider_payment_id: string;
+      /** Статус */
+      status?: components["schemas"]["PaymentReadStatusEnum"];
+      /**
+       * Сумма, ₽
+       * Format: decimal
+       */
+      amount: string;
+      /** Ссылка на оплату */
+      confirmation_url?: string;
+      /**
+       * Создан
+       * Format: date-time
+       */
+      readonly created_at: string;
+    };
+    /**
+     * @description * `pending` - Ожидает оплаты
+     *     * `waiting_for_capture` - Ожидает подтверждения
+     *     * `succeeded` - Успешен
+     *     * `canceled` - Отменён
+     * @enum {string}
+     */
+    PaymentReadStatusEnum: "pending" | "waiting_for_capture" | "succeeded" | "canceled";
     /**
      * @description * `pending` - Ожидает оплаты
      *     * `paid` - Оплачен
@@ -448,6 +543,11 @@ export interface components {
      * @enum {string}
      */
     PaymentStatusEnum: "pending" | "paid" | "failed";
+    PaymentStatusResponse: {
+      order_id: number;
+      payment_status: string;
+      payment: components["schemas"]["PaymentRead"] | null;
+    };
     /** @description Full shape for the product page: description, gallery, variants, SEO. */
     ProductDetail: {
       readonly id: number;
@@ -523,15 +623,6 @@ export interface components {
       phone: string;
       consent: boolean;
     };
-    /**
-     * @description * `new` - Новый
-     *     * `confirmed` - Подтверждён
-     *     * `shipped` - Отправлен
-     *     * `done` - Завершён
-     *     * `cancelled` - Отменён
-     * @enum {string}
-     */
-    StatusEnum: "new" | "confirmed" | "shipped" | "done" | "cancelled";
     TokenObtainPair: {
       username: string;
       password: string;
@@ -895,6 +986,68 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["PaginatedOrderReadList"];
         };
+      };
+    };
+  };
+  payments_create_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PaymentCreate"];
+        "application/x-www-form-urlencoded": components["schemas"]["PaymentCreate"];
+        "multipart/form-data": components["schemas"]["PaymentCreate"];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PaymentRead"];
+        };
+      };
+    };
+  };
+  payments_status_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PaymentStatusResponse"];
+        };
+      };
+    };
+  };
+  payments_yookassa_webhook_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

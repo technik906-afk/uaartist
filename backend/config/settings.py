@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "apps.catalog",
     "apps.orders",
     "apps.accounts",
+    "apps.payments",
 ]
 
 MIDDLEWARE = [
@@ -125,7 +126,13 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # Применяется только к вьюхам с throttle_scope.
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
-    "DEFAULT_THROTTLE_RATES": {"orders": "20/hour", "auth": "10/hour"},
+    "DEFAULT_THROTTLE_RATES": {
+        "orders": "20/hour",
+        "auth": "10/hour",
+        "payments": "30/hour",
+        # поллинг статуса со страницы «Спасибо» — часто, но недолго
+        "payments_status": "300/hour",
+    },
     # JWT: авторизованные запросы несут Authorization: Bearer <token>.
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -145,8 +152,15 @@ EMAIL_BACKEND = env(
 )
 DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL", default="uaartist <noreply@uaartist.ru>")
 
-# База фронтенда — для ссылок в письмах (сброс пароля и т.п.).
+# База фронтенда — для ссылок в письмах (сброс пароля) и return_url оплаты.
 FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:3000")
+
+# --- ЮKassa -------------------------------------------------------------------
+# Пустые ключи = онлайн-оплата отключена (заказы принимаются без неё).
+YOOKASSA_SHOP_ID = env("YOOKASSA_SHOP_ID", default="")
+YOOKASSA_SECRET_KEY = env("YOOKASSA_SECRET_KEY", default="")
+# Ставка НДС для чека 54-ФЗ: 1 = без НДС (УСН). Справочник кодов — в доках ЮKassa.
+YOOKASSA_VAT_CODE = env.int("YOOKASSA_VAT_CODE", default=1)
 
 # --- Telegram notifications --------------------------------------------------
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")
