@@ -160,6 +160,17 @@ EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )
 DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL", default="uaartist <noreply@uaartist.ru>")
+# SMTP (нужен только при smtp-backend). From должен быть на домене,
+# подтверждённом у провайдера (SPF/DKIM в DNS), иначе письма уйдут в спам.
+EMAIL_HOST = env("DJANGO_EMAIL_HOST", default="")
+EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=587)
+EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD", default="")
+EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", default=True)  # STARTTLS (порт 587)
+EMAIL_USE_SSL = env.bool("DJANGO_EMAIL_USE_SSL", default=False)  # SSL (порт 465), не вместе с TLS
+# send_mail синхронный внутри оформления заказа: без таймаута зависший SMTP
+# подвесит чекаут до таймаута gunicorn (60 c).
+EMAIL_TIMEOUT = env.int("DJANGO_EMAIL_TIMEOUT", default=10)
 
 # База фронтенда — для ссылок в письмах (сброс пароля) и return_url оплаты.
 FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:3000")
