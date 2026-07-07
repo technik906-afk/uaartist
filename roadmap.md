@@ -156,13 +156,13 @@
 
 ## 🟡 Этап 7. Нефункциональное и предзапуск — ЧАСТИЧНО
 
-> **Сделано:** VM Cloud.ru + Docker-прод (nginx/gunicorn/Postgres), HTTPS + автопродление, домены (www.uaartist.ru — Vercel, api.uaartist.ru — VM), сильные секреты, README-runbook.
+> **Сделано:** VM Cloud.ru + Docker-прод (nginx/Next.js/gunicorn/Postgres), HTTPS + автопродление, домены (www.uaartist.ru и api.uaartist.ru — обе на VM; витрина переехала с Vercel 2026-07: ТСПУ душил зарубежный хостинг), сильные секреты, README-runbook.
 > **Осталось:** SMTP для писем; страницы оферты/доставки/возврата; боевой магазин ЮKassa + webhook; Playwright E2E; Sentry; бэкапы БД; смена dev-пароля админки.
 
 **Цель:** сделать проект деплоящимся, безопасным и наблюдаемым.
 
 **Задачи:**
-- **Деплой.** Backend: VPS + Docker + nginx + gunicorn/uvicorn, HTTPS (Let's Encrypt). Frontend: Vercel или self-host. Persistent volume для медиа при локальном storage.
+- **Деплой.** Backend: VPS + Docker + nginx + gunicorn/uvicorn, HTTPS (Let's Encrypt). Frontend: self-host на той же VM (Next.js standalone; Vercel из РФ душится ТСПУ). Persistent volume для медиа при локальном storage.
 - **Окружения:** dev / staging / prod с раздельными `.env` и базами. Прод-настройки Django (`DEBUG=False`, `ALLOWED_HOSTS`, secure cookies).
 - **Безопасность:** ротация Telegram-токена, проверка секретов, CORS в проде, rate limiting на заказе/логине, серверная валидация, без утечек в ошибках.
   - [ ] **DJANGO_SECRET_KEY: сгенерировать длинный случайный ключ (50+ символов, ≥32 байт)** — dev-заглушка криптографически слаба (HMAC-подпись JWT/сессий/ссылок сброса пароля); тесты предупреждают об этом. Сгенерировать: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`. Хранить только в прод-`.env`.
