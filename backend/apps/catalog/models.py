@@ -104,6 +104,17 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"{self.product} — фото #{self.pk}"
 
+    def save(self, *args, **kwargs):
+        # Новые загрузки прогоняем через обработку (ужатие/JPEG/EXIF);
+        # _committed=False только у свежеприсвоенного файла — пересохранение
+        # записи (alt, порядок) картинку не перекодирует повторно.
+        if self.image and not self.image._committed:
+            from .images import process_product_image
+
+            name, content = process_product_image(self.image)
+            self.image.save(name, content, save=False)
+        super().save(*args, **kwargs)
+
 
 class Attribute(models.Model):
     """Variant attribute kind, e.g. «Размер», «Цвет»."""
