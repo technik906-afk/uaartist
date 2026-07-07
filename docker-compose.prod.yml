@@ -33,6 +33,12 @@ services:
       - static_data:/app/staticfiles
     expose:
       - "8000"
+    # ВРЕМЯНКА (2026-07): дефолтный IP api.telegram.org (149.154.166.x)
+    # заблокирован из сети Cloud.ru — уведомления молчали. Этот IP из другой
+    # подсети Telegram отвечает. Если снова замолчат — проверить IP и/или
+    # перевести уведомления на email (SMTP.bz), см. roadmap.
+    extra_hosts:
+      - "api.telegram.org:149.154.167.220"
     depends_on:
       db:
         condition: service_healthy
