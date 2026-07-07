@@ -37,6 +37,19 @@ services:
       db:
         condition: service_healthy
 
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Вшиваются в бандл при сборке (см. frontend/Dockerfile) — смена требует rebuild.
+        NEXT_PUBLIC_API_BASE_URL: https://api.uaartist.ru/api/v1
+        NEXT_PUBLIC_SITE_URL: https://www.uaartist.ru
+    restart: unless-stopped
+    expose:
+      - "3000"
+    depends_on:
+      - backend
+
   nginx:
     image: nginx:1.27-alpine
     restart: unless-stopped
@@ -51,6 +64,7 @@ services:
       - letsencrypt:/etc/letsencrypt
     depends_on:
       - backend
+      - frontend
 
 volumes:
   postgres_data:

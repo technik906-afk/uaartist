@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Self-hosted прод (Docker на VM): минимальный сервер в .next/standalone.
+  // `npm run start` со standalone не работает — только node server.js (см. Dockerfile).
+  output: "standalone",
   images: {
     // Фото товаров отдаёт Django (MEDIA_URL): dev — localhost, прод — api-домен.
     remotePatterns: [

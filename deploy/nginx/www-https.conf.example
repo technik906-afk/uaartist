@@ -1,0 +1,47 @@
+# Витрина, этап 2 (после выпуска сертификата): HTTPS + редиректы.
+# Канонический хост — www.uaartist.ru; apex 308 → www (как было на Vercel).
+# Скопировать в conf.d/www.conf и перезапустить nginx:
+#   cp deploy/nginx/www-https.conf.example deploy/nginx/conf.d/www.conf
+#   docker compose -f docker-compose.prod.yml restart nginx
+
+server {
+    listen 80;
+    server_name www.uaartist.ru uaartist.ru;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://www.uaartist.ru$request_uri;
+    }
+}
+
+# apex по HTTPS: 308 на www (сохраняет метод и тело запроса)
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name uaartist.ru;
+
+    ssl_certificate /etc/letsencrypt/live/www.uaartist.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.uaartist.ru/privkey.pem;
+
+    return 308 https://www.uaartist.ru$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name www.uaartist.ru;
+
+    ssl_certificate /etc/letsencrypt/live/www.uaartist.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.uaartist.ru/privkey.pem;
+
+    location / {
+        proxy_pass http://frontend:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
