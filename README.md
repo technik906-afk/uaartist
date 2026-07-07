@@ -87,6 +87,19 @@ sudo docker compose -f ~/uaartist/docker-compose.prod.yml restart nginx
    `from django.core.mail import send_mail; send_mail("test", "test", None, ["свой@ящик"])`,
    затем прогон через mail-tester.com (должно быть 9–10/10) и живой сброс пароля с витрины.
 
+### Бэкапы
+
+`deploy/backup-db.sh` (cron пользователя `leff`, ежедневно 03:30): дамп Postgres в
+`~/backups/db-*.sql.gz` (хранится 14 шт) + по воскресеньям архив медиа
+`media-*.tar.gz` (4 шт). Лог — `~/backups/backup.log`. Восстановление БД:
+
+```bash
+gunzip -c ~/backups/db-XXXX.sql.gz | sudo docker compose -f docker-compose.prod.yml \
+  exec -T db psql -U uaartist uaartist
+```
+
+⚠️ Копии лежат на той же VM — offsite (Cloud.ru Object Storage) ещё не настроен.
+
 ### Полезное на сервере
 
 ```bash
