@@ -194,6 +194,32 @@ YOOKASSA_VAT_CODE = env.int("YOOKASSA_VAT_CODE", default=1)
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")
 TELEGRAM_CHAT_ID = env("TELEGRAM_CHAT_ID", default="")
 
+# --- Логирование: 500-ки → Telegram ------------------------------------------
+# Только django.request (необработанные исключения вьюх). Дефолтное
+# консольное логирование Django сохраняется (disable_existing_loggers=False,
+# propagate=True). Троттлинг и fail-soft — в apps.core.telegram_log.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "telegram": {"format": "🚨 Ошибка на проде\n%(message)s"},
+    },
+    "handlers": {
+        "telegram_errors": {
+            "class": "apps.core.telegram_log.TelegramErrorHandler",
+            "level": "ERROR",
+            "formatter": "telegram",
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["telegram_errors"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
+
 # --- OpenAPI schema (drf-spectacular) ----------------------------------------
 SPECTACULAR_SETTINGS = {
     "TITLE": "uaartist API",
