@@ -98,7 +98,10 @@ gunzip -c ~/backups/db-XXXX.sql.gz | sudo docker compose -f docker-compose.prod.
   exec -T db psql -U uaartist uaartist
 ```
 
-⚠️ Копии лежат на той же VM — offsite (Cloud.ru Object Storage) ещё не настроен.
+Offsite: тот же скрипт зеркалит `~/backups` в Cloud.ru Object Storage
+(`s3://bucket-uaartist/backups`, endpoint s3.cloud.ru, ключи `BACKUP_S3_*` в
+`~/uaartist/.env`). Ротация зеркалится (`sync --delete`); при объёме бакета
+>12 ГБ (free tier 15) скрипт шлёт предупреждение в Telegram.
 
 ### E2E-тесты (Playwright)
 
