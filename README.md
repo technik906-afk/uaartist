@@ -100,6 +100,13 @@ gunzip -c ~/backups/db-XXXX.sql.gz | sudo docker compose -f docker-compose.prod.
 
 ⚠️ Копии лежат на той же VM — offsite (Cloud.ru Object Storage) ещё не настроен.
 
+### E2E-тесты (Playwright)
+
+Из `frontend/`: `npm run test:e2e` (нужен запущенный dev-стек: `docker compose up` +
+интернет — доставка считается живым СДЭК; фронтенд поднимется сам, если не запущен).
+Global-setup пополняет сток вариантов до 50 перед прогоном. Отчёт: `npx playwright show-report`.
+Сценарии: гостевой чекаут с ПВЗ СДЭК, конструктор, регистрация/логин.
+
 ### Полезное на сервере
 
 ```bash
