@@ -863,6 +863,11 @@ ul {
   position: absolute;
   top: var(--spacing-md);
   right: var(--spacing-md);
+  /* Поверх фото: transform картинки при ховере создаёт stacking context,
+     без z-index увеличенное фото перекрывало кнопку */
+  z-index: 5;
+  border: none;
+  cursor: pointer;
   width: 40px;
   height: 40px;
   background: rgba(255, 255, 255, 0.9);

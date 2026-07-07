@@ -14,7 +14,8 @@ export default function ProductCard({ product }: { product: ProductList }) {
   return (
     <div className="product-card">
       <Link href={`/product/${product.slug}`} className="product-image">
-        <WishlistButton slug={product.slug} />
+        {/* Кнопка ПОСЛЕ картинки в DOM — иначе transform фото при ховере
+            перекрывает её (стек-контекст) */}
         {product.main_image ? (
           <Image
             src={product.main_image.image}
@@ -26,6 +27,7 @@ export default function ProductCard({ product }: { product: ProductList }) {
         ) : (
           <div style={{ aspectRatio: "1", background: "var(--color-cream, #f5f3f0)" }} />
         )}
+        <WishlistButton slug={product.slug} />
       </Link>
       <div className="product-info">
         <div className="product-header">
