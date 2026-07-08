@@ -29,7 +29,7 @@ export default async function HomePage() {
         </div>
         <div className="container hero-container">
           <div className="hero-content">
-            <p className="hero-badge">Устойчивая красота</p>
+            <p className="hero-badge">Ручная работа · сшито в Череповце</p>
             <h1 className="hero-title">
               <span className="font-serif">Красота ручной работы</span>
             </h1>

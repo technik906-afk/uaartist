@@ -46,6 +46,14 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
     list_select_related = ["category"]
     inlines = [ProductImageInline, ProductVariantInline]
+    fieldsets = [
+        (None, {"fields": ["category", "name", "slug", "description", "is_active"]}),
+        (
+            "Характеристики (блок в карточке товара)",
+            {"fields": ["dimensions", "composition", "care", "production_time"]},
+        ),
+        ("SEO", {"fields": ["meta_title", "meta_description"], "classes": ["collapse"]}),
+    ]
 
 
 @admin.register(Attribute)

@@ -4,1290 +4,1309 @@
  */
 
 export interface paths {
-  "/api/v1/auth/me/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/me/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Профиль текущего пользователя: чтение и частичное обновление. */
+        get: operations["auth_me_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Профиль текущего пользователя: чтение и частичное обновление. */
+        patch: operations["auth_me_partial_update"];
+        trace?: never;
     };
-    /** @description Профиль текущего пользователя: чтение и частичное обновление. */
-    get: operations["auth_me_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /** @description Профиль текущего пользователя: чтение и частичное обновление. */
-    patch: operations["auth_me_partial_update"];
-    trace?: never;
-  };
-  "/api/v1/auth/password/change/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/password/change/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Смена пароля: требует текущий пароль. */
+        post: operations["auth_password_change_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** @description Смена пароля: требует текущий пароль. */
-    post: operations["auth_password_change_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/auth/password/reset/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/password/reset/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description Запрос сброса пароля: шлёт письмо со ссылкой.
+         *     Ответ всегда одинаковый — существование email не раскрываем.
+         */
+        post: operations["auth_password_reset_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * @description Запрос сброса пароля: шлёт письмо со ссылкой.
-     *     Ответ всегда одинаковый — существование email не раскрываем.
-     */
-    post: operations["auth_password_reset_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/auth/password/reset/confirm/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/password/reset/confirm/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Установка нового пароля по ссылке из письма. */
+        post: operations["auth_password_reset_confirm_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** @description Установка нового пароля по ссылке из письма. */
-    post: operations["auth_password_reset_confirm_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/auth/register/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/register/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Регистрация: создаёт пользователя и сразу выдаёт пару токенов (автологин). */
+        post: operations["auth_register_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** @description Регистрация: создаёт пользователя и сразу выдаёт пару токенов (автологин). */
-    post: operations["auth_register_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/auth/token/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/token/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description Takes a set of user credentials and returns an access and refresh JSON web
+         *     token pair to prove the authentication of those credentials.
+         */
+        post: operations["auth_token_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * @description Takes a set of user credentials and returns an access and refresh JSON web
-     *     token pair to prove the authentication of those credentials.
-     */
-    post: operations["auth_token_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/auth/token/refresh/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/token/refresh/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description Takes a refresh type JSON web token and returns an access type JSON web
+         *     token if the refresh token is valid.
+         */
+        post: operations["auth_token_refresh_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * @description Takes a refresh type JSON web token and returns an access type JSON web
-     *     token if the refresh token is valid.
-     */
-    post: operations["auth_token_refresh_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/categories/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/categories/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Список категорий и категория по слагу. */
+        get: operations["categories_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Список категорий и категория по слагу. */
-    get: operations["categories_list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/categories/{slug}/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/categories/{slug}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Список категорий и категория по слагу. */
+        get: operations["categories_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Список категорий и категория по слагу. */
-    get: operations["categories_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/constructor/options/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/constructor/options/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Активные опции конструктора, сгруппированные по типу. Цены — из БД. */
+        get: operations["constructor_options_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Активные опции конструктора, сгруппированные по типу. Цены — из БД. */
-    get: operations["constructor_options_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/delivery/cities/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/delivery/cities/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Подсказки городов (справочник СДЭК). */
+        get: operations["delivery_cities_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Подсказки городов (справочник СДЭК). */
-    get: operations["delivery_cities_list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/delivery/points/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/delivery/points/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Пункты выдачи СДЭК в городе. */
+        get: operations["delivery_points_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Пункты выдачи СДЭК в городе. */
-    get: operations["delivery_points_list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/delivery/quote/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/delivery/quote/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Варианты доставки с ценами; вес корзины считает сервер. */
+        post: operations["delivery_quote_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** @description Варианты доставки с ценами; вес корзины считает сервер. */
-    post: operations["delivery_quote_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/health/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/health/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Lightweight liveness probe used to verify the API is up. */
+        get: operations["health_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Lightweight liveness probe used to verify the API is up. */
-    get: operations["health_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/orders/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/orders/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Оформление заказа (гостевой чекаут) + история своих заказов. */
+        post: operations["orders_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** @description Оформление заказа (гостевой чекаут) + история своих заказов. */
-    post: operations["orders_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/orders/my/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/orders/my/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Заказы текущего пользователя (только свои). */
+        get: operations["orders_my_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Заказы текущего пользователя (только свои). */
-    get: operations["orders_my_list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/payments/create/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/payments/create/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Создать (или переиспользовать незавершённый) платёж по заказу. */
+        post: operations["payments_create_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** @description Создать (или переиспользовать незавершённый) платёж по заказу. */
-    post: operations["payments_create_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/payments/status/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/payments/status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Статус оплаты заказа (для поллинга со страницы «Спасибо»). */
+        get: operations["payments_status_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Статус оплаты заказа (для поллинга со страницы «Спасибо»). */
-    get: operations["payments_status_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/payments/yookassa/webhook/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/payments/yookassa/webhook/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description Приём уведомлений ЮKassa. Всегда 200 (иначе провайдер ретраит),
+         *     статус перечитывается из API — телу уведомления не доверяем.
+         */
+        post: operations["payments_yookassa_webhook_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * @description Приём уведомлений ЮKassa. Всегда 200 (иначе провайдер ретраит),
-     *     статус перечитывается из API — телу уведомления не доверяем.
-     */
-    post: operations["payments_yookassa_webhook_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/products/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/products/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Каталог: список товаров (с фильтрами) и карточка по слагу. */
+        get: operations["products_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Каталог: список товаров (с фильтрами) и карточка по слагу. */
-    get: operations["products_list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/products/{slug}/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/products/{slug}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Каталог: список товаров (с фильтрами) и карточка по слагу. */
+        get: operations["products_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** @description Каталог: список товаров (с фильтрами) и карточка по слагу. */
-    get: operations["products_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    AttributeValue: {
-      readonly id: number;
-      readonly attribute: string;
-      readonly attribute_slug: string;
-      /** Значение */
-      value: string;
-      /** Слаг */
-      slug: string;
-      /** Цвет (hex) */
-      color_hex?: string;
+    schemas: {
+        AttributeValue: {
+            readonly id: number;
+            readonly attribute: string;
+            readonly attribute_slug: string;
+            /** Значение */
+            value: string;
+            /** Слаг */
+            slug: string;
+            /** Цвет (hex) */
+            color_hex?: string;
+        };
+        /** @enum {unknown} */
+        BlankEnum: "";
+        Category: {
+            readonly id: number;
+            /** Название */
+            name: string;
+            /** Слаг */
+            slug: string;
+            /** Родительская категория */
+            parent?: number | null;
+            /** Описание */
+            description?: string;
+        };
+        /** @description Входные данные оформления заказа. Цены клиент не передаёт. */
+        Checkout: {
+            customer: components["schemas"]["Customer"];
+            items: components["schemas"]["CheckoutItem"][];
+            delivery: components["schemas"]["Delivery"];
+        };
+        CheckoutItem: {
+            variant_id?: number;
+            custom?: components["schemas"]["CustomConfig"];
+            /** @default 1 */
+            quantity: number;
+        };
+        City: {
+            code: number;
+            full_name: string;
+        };
+        ConstructorOption: {
+            /** Слаг */
+            slug: string;
+            /** Название */
+            name: string;
+            /**
+             * Цена/наценка, ₽
+             * Format: decimal
+             */
+            price?: string;
+            /** Цвет (hex) */
+            color_hex?: string;
+        };
+        /** @description Ответ /constructor/options/: опции, сгруппированные по типу. */
+        ConstructorOptionsResponse: {
+            sizes: components["schemas"]["ConstructorOption"][];
+            bag_colors: components["schemas"]["ConstructorOption"][];
+            zipper_colors: components["schemas"]["ConstructorOption"][];
+            addons: components["schemas"]["ConstructorOption"][];
+        };
+        /**
+         * @description Конфигурация конструктора. Слаги валидируются по БД
+         *     (catalog.ConstructorOption) в pricing.resolve_config при создании заказа.
+         */
+        CustomConfig: {
+            size: string;
+            bag_color: string;
+            zipper_color: string;
+            /** @default false */
+            tassel: boolean;
+        };
+        Customer: {
+            name: string;
+            phone: string;
+            /** Format: email */
+            email: string;
+            /** @default  */
+            comment: string;
+        };
+        /** @description Доставка: стоимость клиент не передаёт — сервер посчитает сам. */
+        Delivery: {
+            method: components["schemas"]["MethodEnum"];
+            city_code?: number;
+            city_name: string;
+            postcode?: string;
+            /** @default  */
+            address: string;
+            /** @default  */
+            pvz_code: string;
+            /** @default  */
+            pvz_address: string;
+        };
+        /**
+         * @description * `cdek_pvz` - СДЭК — пункт выдачи
+         *     * `cdek_courier` - СДЭК — курьер
+         *     * `post` - Почта России
+         * @enum {string}
+         */
+        DeliveryMethodEnum: "cdek_pvz" | "cdek_courier" | "post";
+        Detail: {
+            detail: string;
+        };
+        /**
+         * @description * `cdek_pvz` - cdek_pvz
+         *     * `cdek_courier` - cdek_courier
+         *     * `post` - post
+         * @enum {string}
+         */
+        MethodEnum: "cdek_pvz" | "cdek_courier" | "post";
+        OrderItemRead: {
+            /** Название */
+            product_name: string;
+            sku?: string;
+            /**
+             * Цена на момент покупки, ₽
+             * Format: decimal
+             */
+            price: string;
+            /** Количество */
+            quantity?: number;
+            /** Конфигурация конструктора */
+            custom_config?: unknown;
+            /** Format: decimal */
+            readonly line_total: string;
+        };
+        OrderRead: {
+            readonly id: number;
+            /** Статус */
+            status?: components["schemas"]["OrderReadStatusEnum"];
+            /** Статус оплаты */
+            payment_status?: components["schemas"]["PaymentStatusEnum"];
+            /** Имя */
+            customer_name: string;
+            /** Телефон */
+            customer_phone: string;
+            /**
+             * Email
+             * Format: email
+             */
+            customer_email: string;
+            /** Комментарий (адрес, пожелания) */
+            comment?: string;
+            /** Способ доставки */
+            delivery_method?: components["schemas"]["DeliveryMethodEnum"] | components["schemas"]["BlankEnum"];
+            /**
+             * Стоимость доставки, ₽
+             * Format: decimal
+             */
+            delivery_cost?: string;
+            /** Город */
+            delivery_city?: string;
+            /** Индекс */
+            delivery_postcode?: string;
+            /** Адрес (улица, дом, кв.) */
+            delivery_address?: string;
+            /** Код ПВЗ */
+            delivery_pvz_code?: string;
+            /** Адрес ПВЗ */
+            delivery_pvz_address?: string;
+            /**
+             * Сумма, ₽
+             * Format: decimal
+             */
+            total?: string;
+            readonly items: components["schemas"]["OrderItemRead"][];
+            /**
+             * Создан
+             * Format: date-time
+             */
+            readonly created_at: string;
+        };
+        /**
+         * @description * `new` - Новый
+         *     * `confirmed` - Подтверждён
+         *     * `shipped` - Отправлен
+         *     * `done` - Завершён
+         *     * `cancelled` - Отменён
+         * @enum {string}
+         */
+        OrderReadStatusEnum: "new" | "confirmed" | "shipped" | "done" | "cancelled";
+        PaginatedOrderReadList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["OrderRead"][];
+        };
+        PaginatedProductListList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["ProductList"][];
+        };
+        PasswordChange: {
+            old_password: string;
+            new_password: string;
+        };
+        PasswordReset: {
+            /** Format: email */
+            email: string;
+        };
+        PasswordResetConfirm: {
+            uid: string;
+            token: string;
+            new_password: string;
+        };
+        /** @description PATCH /auth/me/: имя и телефон. */
+        PatchedProfileUpdate: {
+            first_name?: string;
+            phone?: string;
+        };
+        /** @description Создание платежа: заказ + email для лёгкой проверки принадлежности. */
+        PaymentCreate: {
+            order_id: number;
+            /** Format: email */
+            email: string;
+        };
+        PaymentRead: {
+            /** ID платежа у провайдера */
+            provider_payment_id: string;
+            /** Статус */
+            status?: components["schemas"]["PaymentReadStatusEnum"];
+            /**
+             * Сумма, ₽
+             * Format: decimal
+             */
+            amount: string;
+            /** Ссылка на оплату */
+            confirmation_url?: string;
+            /**
+             * Создан
+             * Format: date-time
+             */
+            readonly created_at: string;
+        };
+        /**
+         * @description * `pending` - Ожидает оплаты
+         *     * `waiting_for_capture` - Ожидает подтверждения
+         *     * `succeeded` - Успешен
+         *     * `canceled` - Отменён
+         * @enum {string}
+         */
+        PaymentReadStatusEnum: "pending" | "waiting_for_capture" | "succeeded" | "canceled";
+        /**
+         * @description * `pending` - Ожидает оплаты
+         *     * `paid` - Оплачен
+         *     * `failed` - Ошибка оплаты
+         * @enum {string}
+         */
+        PaymentStatusEnum: "pending" | "paid" | "failed";
+        PaymentStatusResponse: {
+            order_id: number;
+            payment_status: string;
+            payment: components["schemas"]["PaymentRead"] | null;
+        };
+        Point: {
+            code: string;
+            name: string;
+            address: string;
+            work_time: string;
+        };
+        /** @description Full shape for the product page: description, gallery, variants, SEO. */
+        ProductDetail: {
+            readonly id: number;
+            /** Название */
+            name: string;
+            /** Слаг */
+            slug: string;
+            readonly category: string;
+            readonly category_name: string;
+            readonly main_image: components["schemas"]["ProductImage"] | null;
+            /** Format: decimal */
+            readonly price_min: string;
+            /** Format: decimal */
+            readonly price_max: string;
+            readonly in_stock: boolean;
+            /** Описание */
+            description?: string;
+            /**
+             * Размеры
+             * @description Например: 20 × 12 × 10 см
+             */
+            dimensions?: string;
+            /**
+             * Состав
+             * @description Например: букле (100% хлопок), подклад — лён
+             */
+            composition?: string;
+            /**
+             * Уход
+             * @description Например: ручная стирка при 30°, не отжимать
+             */
+            care?: string;
+            /**
+             * Срок изготовления
+             * @description Например: в наличии — отправим за 1–2 дня / пошив 3–5 рабочих дней
+             */
+            production_time?: string;
+            readonly images: components["schemas"]["ProductImage"][];
+            readonly variants: components["schemas"]["ProductVariant"][];
+            meta_title?: string;
+            meta_description?: string;
+        };
+        ProductImage: {
+            readonly id: number;
+            /**
+             * Изображение
+             * Format: uri
+             */
+            image: string;
+            /** Alt-текст */
+            alt_text?: string;
+            /** Порядок */
+            sort_order?: number;
+            /** Главное */
+            is_main?: boolean;
+        };
+        /** @description Lean shape for catalog grids: main image + price range, no heavy nesting. */
+        ProductList: {
+            readonly id: number;
+            /** Название */
+            name: string;
+            /** Слаг */
+            slug: string;
+            readonly category: string;
+            readonly category_name: string;
+            readonly main_image: components["schemas"]["ProductImage"] | null;
+            /** Format: decimal */
+            readonly price_min: string;
+            /** Format: decimal */
+            readonly price_max: string;
+            readonly in_stock: boolean;
+        };
+        ProductVariant: {
+            readonly id: number;
+            /** Артикул (SKU) */
+            sku: string;
+            /**
+             * Цена, ₽
+             * Format: decimal
+             */
+            price: string;
+            /** Остаток */
+            stock?: number;
+            readonly in_stock: boolean;
+            readonly attribute_values: components["schemas"]["AttributeValue"][];
+        };
+        Quote: {
+            method: string;
+            name: string;
+            /** Format: double */
+            price: number;
+            days: string;
+        };
+        QuoteRequest: {
+            city_code?: number;
+            postcode?: string;
+            items: {
+                [key: string]: unknown;
+            }[];
+        };
+        /** @description Регистрация: email (= username), имя, телефон, пароль, согласие на ПДн. */
+        Register: {
+            /** Format: email */
+            email: string;
+            password: string;
+            name: string;
+            phone: string;
+            consent: boolean;
+        };
+        TokenObtainPair: {
+            username: string;
+            password: string;
+            readonly access: string;
+            readonly refresh: string;
+        };
+        TokenPair: {
+            access: string;
+            refresh: string;
+        };
+        TokenRefresh: {
+            readonly access: string;
+            refresh: string;
+        };
+        User: {
+            readonly id: number;
+            /**
+             * Адрес электронной почты
+             * Format: email
+             */
+            readonly email: string;
+            /** Имя */
+            readonly first_name: string;
+            /** Фамилия */
+            readonly last_name: string;
+            /** @default  */
+            readonly phone: string;
+            /**
+             * Дата регистрации
+             * Format: date-time
+             */
+            readonly date_joined: string;
+        };
     };
-    /** @enum {unknown} */
-    BlankEnum: "";
-    Category: {
-      readonly id: number;
-      /** Название */
-      name: string;
-      /** Слаг */
-      slug: string;
-      /** Родительская категория */
-      parent?: number | null;
-      /** Описание */
-      description?: string;
-    };
-    /** @description Входные данные оформления заказа. Цены клиент не передаёт. */
-    Checkout: {
-      customer: components["schemas"]["Customer"];
-      items: components["schemas"]["CheckoutItem"][];
-      delivery: components["schemas"]["Delivery"];
-    };
-    CheckoutItem: {
-      variant_id?: number;
-      custom?: components["schemas"]["CustomConfig"];
-      /** @default 1 */
-      quantity: number;
-    };
-    City: {
-      code: number;
-      full_name: string;
-    };
-    ConstructorOption: {
-      /** Слаг */
-      slug: string;
-      /** Название */
-      name: string;
-      /**
-       * Цена/наценка, ₽
-       * Format: decimal
-       */
-      price?: string;
-      /** Цвет (hex) */
-      color_hex?: string;
-    };
-    /** @description Ответ /constructor/options/: опции, сгруппированные по типу. */
-    ConstructorOptionsResponse: {
-      sizes: components["schemas"]["ConstructorOption"][];
-      bag_colors: components["schemas"]["ConstructorOption"][];
-      zipper_colors: components["schemas"]["ConstructorOption"][];
-      addons: components["schemas"]["ConstructorOption"][];
-    };
-    /**
-     * @description Конфигурация конструктора. Слаги валидируются по БД
-     *     (catalog.ConstructorOption) в pricing.resolve_config при создании заказа.
-     */
-    CustomConfig: {
-      size: string;
-      bag_color: string;
-      zipper_color: string;
-      /** @default false */
-      tassel: boolean;
-    };
-    Customer: {
-      name: string;
-      phone: string;
-      /** Format: email */
-      email: string;
-      /** @default  */
-      comment: string;
-    };
-    /** @description Доставка: стоимость клиент не передаёт — сервер посчитает сам. */
-    Delivery: {
-      method: components["schemas"]["MethodEnum"];
-      city_code?: number;
-      city_name: string;
-      postcode?: string;
-      /** @default  */
-      address: string;
-      /** @default  */
-      pvz_code: string;
-      /** @default  */
-      pvz_address: string;
-    };
-    /**
-     * @description * `cdek_pvz` - СДЭК — пункт выдачи
-     *     * `cdek_courier` - СДЭК — курьер
-     *     * `post` - Почта России
-     * @enum {string}
-     */
-    DeliveryMethodEnum: "cdek_pvz" | "cdek_courier" | "post";
-    Detail: {
-      detail: string;
-    };
-    /**
-     * @description * `cdek_pvz` - cdek_pvz
-     *     * `cdek_courier` - cdek_courier
-     *     * `post` - post
-     * @enum {string}
-     */
-    MethodEnum: "cdek_pvz" | "cdek_courier" | "post";
-    OrderItemRead: {
-      /** Название */
-      product_name: string;
-      sku?: string;
-      /**
-       * Цена на момент покупки, ₽
-       * Format: decimal
-       */
-      price: string;
-      /** Количество */
-      quantity?: number;
-      /** Конфигурация конструктора */
-      custom_config?: unknown;
-      /** Format: decimal */
-      readonly line_total: string;
-    };
-    OrderRead: {
-      readonly id: number;
-      /** Статус */
-      status?: components["schemas"]["OrderReadStatusEnum"];
-      /** Статус оплаты */
-      payment_status?: components["schemas"]["PaymentStatusEnum"];
-      /** Имя */
-      customer_name: string;
-      /** Телефон */
-      customer_phone: string;
-      /**
-       * Email
-       * Format: email
-       */
-      customer_email: string;
-      /** Комментарий (адрес, пожелания) */
-      comment?: string;
-      /** Способ доставки */
-      delivery_method?:
-        components["schemas"]["DeliveryMethodEnum"] | components["schemas"]["BlankEnum"];
-      /**
-       * Стоимость доставки, ₽
-       * Format: decimal
-       */
-      delivery_cost?: string;
-      /** Город */
-      delivery_city?: string;
-      /** Индекс */
-      delivery_postcode?: string;
-      /** Адрес (улица, дом, кв.) */
-      delivery_address?: string;
-      /** Код ПВЗ */
-      delivery_pvz_code?: string;
-      /** Адрес ПВЗ */
-      delivery_pvz_address?: string;
-      /**
-       * Сумма, ₽
-       * Format: decimal
-       */
-      total?: string;
-      readonly items: components["schemas"]["OrderItemRead"][];
-      /**
-       * Создан
-       * Format: date-time
-       */
-      readonly created_at: string;
-    };
-    /**
-     * @description * `new` - Новый
-     *     * `confirmed` - Подтверждён
-     *     * `shipped` - Отправлен
-     *     * `done` - Завершён
-     *     * `cancelled` - Отменён
-     * @enum {string}
-     */
-    OrderReadStatusEnum: "new" | "confirmed" | "shipped" | "done" | "cancelled";
-    PaginatedOrderReadList: {
-      /** @example 123 */
-      count: number;
-      /**
-       * Format: uri
-       * @example http://api.example.org/accounts/?page=4
-       */
-      next?: string | null;
-      /**
-       * Format: uri
-       * @example http://api.example.org/accounts/?page=2
-       */
-      previous?: string | null;
-      results: components["schemas"]["OrderRead"][];
-    };
-    PaginatedProductListList: {
-      /** @example 123 */
-      count: number;
-      /**
-       * Format: uri
-       * @example http://api.example.org/accounts/?page=4
-       */
-      next?: string | null;
-      /**
-       * Format: uri
-       * @example http://api.example.org/accounts/?page=2
-       */
-      previous?: string | null;
-      results: components["schemas"]["ProductList"][];
-    };
-    PasswordChange: {
-      old_password: string;
-      new_password: string;
-    };
-    PasswordReset: {
-      /** Format: email */
-      email: string;
-    };
-    PasswordResetConfirm: {
-      uid: string;
-      token: string;
-      new_password: string;
-    };
-    /** @description PATCH /auth/me/: имя и телефон. */
-    PatchedProfileUpdate: {
-      first_name?: string;
-      phone?: string;
-    };
-    /** @description Создание платежа: заказ + email для лёгкой проверки принадлежности. */
-    PaymentCreate: {
-      order_id: number;
-      /** Format: email */
-      email: string;
-    };
-    PaymentRead: {
-      /** ID платежа у провайдера */
-      provider_payment_id: string;
-      /** Статус */
-      status?: components["schemas"]["PaymentReadStatusEnum"];
-      /**
-       * Сумма, ₽
-       * Format: decimal
-       */
-      amount: string;
-      /** Ссылка на оплату */
-      confirmation_url?: string;
-      /**
-       * Создан
-       * Format: date-time
-       */
-      readonly created_at: string;
-    };
-    /**
-     * @description * `pending` - Ожидает оплаты
-     *     * `waiting_for_capture` - Ожидает подтверждения
-     *     * `succeeded` - Успешен
-     *     * `canceled` - Отменён
-     * @enum {string}
-     */
-    PaymentReadStatusEnum: "pending" | "waiting_for_capture" | "succeeded" | "canceled";
-    /**
-     * @description * `pending` - Ожидает оплаты
-     *     * `paid` - Оплачен
-     *     * `failed` - Ошибка оплаты
-     * @enum {string}
-     */
-    PaymentStatusEnum: "pending" | "paid" | "failed";
-    PaymentStatusResponse: {
-      order_id: number;
-      payment_status: string;
-      payment: components["schemas"]["PaymentRead"] | null;
-    };
-    Point: {
-      code: string;
-      name: string;
-      address: string;
-      work_time: string;
-    };
-    /** @description Full shape for the product page: description, gallery, variants, SEO. */
-    ProductDetail: {
-      readonly id: number;
-      /** Название */
-      name: string;
-      /** Слаг */
-      slug: string;
-      readonly category: string;
-      readonly category_name: string;
-      readonly main_image: components["schemas"]["ProductImage"] | null;
-      /** Format: decimal */
-      readonly price_min: string;
-      /** Format: decimal */
-      readonly price_max: string;
-      readonly in_stock: boolean;
-      /** Описание */
-      description?: string;
-      readonly images: components["schemas"]["ProductImage"][];
-      readonly variants: components["schemas"]["ProductVariant"][];
-      meta_title?: string;
-      meta_description?: string;
-    };
-    ProductImage: {
-      readonly id: number;
-      /**
-       * Изображение
-       * Format: uri
-       */
-      image: string;
-      /** Alt-текст */
-      alt_text?: string;
-      /** Порядок */
-      sort_order?: number;
-      /** Главное */
-      is_main?: boolean;
-    };
-    /** @description Lean shape for catalog grids: main image + price range, no heavy nesting. */
-    ProductList: {
-      readonly id: number;
-      /** Название */
-      name: string;
-      /** Слаг */
-      slug: string;
-      readonly category: string;
-      readonly category_name: string;
-      readonly main_image: components["schemas"]["ProductImage"] | null;
-      /** Format: decimal */
-      readonly price_min: string;
-      /** Format: decimal */
-      readonly price_max: string;
-      readonly in_stock: boolean;
-    };
-    ProductVariant: {
-      readonly id: number;
-      /** Артикул (SKU) */
-      sku: string;
-      /**
-       * Цена, ₽
-       * Format: decimal
-       */
-      price: string;
-      /** Остаток */
-      stock?: number;
-      readonly in_stock: boolean;
-      readonly attribute_values: components["schemas"]["AttributeValue"][];
-    };
-    Quote: {
-      method: string;
-      name: string;
-      /** Format: double */
-      price: number;
-      days: string;
-    };
-    QuoteRequest: {
-      city_code?: number;
-      postcode?: string;
-      items: {
-        [key: string]: unknown;
-      }[];
-    };
-    /** @description Регистрация: email (= username), имя, телефон, пароль, согласие на ПДн. */
-    Register: {
-      /** Format: email */
-      email: string;
-      password: string;
-      name: string;
-      phone: string;
-      consent: boolean;
-    };
-    TokenObtainPair: {
-      username: string;
-      password: string;
-      readonly access: string;
-      readonly refresh: string;
-    };
-    TokenPair: {
-      access: string;
-      refresh: string;
-    };
-    TokenRefresh: {
-      readonly access: string;
-      refresh: string;
-    };
-    User: {
-      readonly id: number;
-      /**
-       * Адрес электронной почты
-       * Format: email
-       */
-      readonly email: string;
-      /** Имя */
-      readonly first_name: string;
-      /** Фамилия */
-      readonly last_name: string;
-      /** @default  */
-      readonly phone: string;
-      /**
-       * Дата регистрации
-       * Format: date-time
-       */
-      readonly date_joined: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  auth_me_retrieve: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    auth_me_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["User"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
         };
-      };
     };
-  };
-  auth_me_partial_update: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["PatchedProfileUpdate"];
-        "application/x-www-form-urlencoded": components["schemas"]["PatchedProfileUpdate"];
-        "multipart/form-data": components["schemas"]["PatchedProfileUpdate"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    auth_me_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["User"];
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedProfileUpdate"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedProfileUpdate"];
+                "multipart/form-data": components["schemas"]["PatchedProfileUpdate"];
+            };
         };
-      };
-    };
-  };
-  auth_password_change_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["PasswordChange"];
-        "application/x-www-form-urlencoded": components["schemas"]["PasswordChange"];
-        "multipart/form-data": components["schemas"]["PasswordChange"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["Detail"];
+    };
+    auth_password_change_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  auth_password_reset_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["PasswordReset"];
-        "application/x-www-form-urlencoded": components["schemas"]["PasswordReset"];
-        "multipart/form-data": components["schemas"]["PasswordReset"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordChange"];
+                "application/x-www-form-urlencoded": components["schemas"]["PasswordChange"];
+                "multipart/form-data": components["schemas"]["PasswordChange"];
+            };
         };
-        content: {
-          "application/json": components["schemas"]["Detail"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Detail"];
+                };
+            };
         };
-      };
     };
-  };
-  auth_password_reset_confirm_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["PasswordResetConfirm"];
-        "application/x-www-form-urlencoded": components["schemas"]["PasswordResetConfirm"];
-        "multipart/form-data": components["schemas"]["PasswordResetConfirm"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    auth_password_reset_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Detail"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordReset"];
+                "application/x-www-form-urlencoded": components["schemas"]["PasswordReset"];
+                "multipart/form-data": components["schemas"]["PasswordReset"];
+            };
         };
-      };
-    };
-  };
-  auth_register_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Register"];
-        "application/x-www-form-urlencoded": components["schemas"]["Register"];
-        "multipart/form-data": components["schemas"]["Register"];
-      };
-    };
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Detail"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["TokenPair"];
+    };
+    auth_password_reset_confirm_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  auth_token_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["TokenObtainPair"];
-        "application/x-www-form-urlencoded": components["schemas"]["TokenObtainPair"];
-        "multipart/form-data": components["schemas"]["TokenObtainPair"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordResetConfirm"];
+                "application/x-www-form-urlencoded": components["schemas"]["PasswordResetConfirm"];
+                "multipart/form-data": components["schemas"]["PasswordResetConfirm"];
+            };
         };
-        content: {
-          "application/json": components["schemas"]["TokenObtainPair"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Detail"];
+                };
+            };
         };
-      };
     };
-  };
-  auth_token_refresh_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["TokenRefresh"];
-        "application/x-www-form-urlencoded": components["schemas"]["TokenRefresh"];
-        "multipart/form-data": components["schemas"]["TokenRefresh"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    auth_register_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["TokenRefresh"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Register"];
+                "application/x-www-form-urlencoded": components["schemas"]["Register"];
+                "multipart/form-data": components["schemas"]["Register"];
+            };
         };
-      };
-    };
-  };
-  categories_list: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenPair"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["Category"][];
+    };
+    auth_token_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  categories_retrieve: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        slug: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TokenObtainPair"];
+                "application/x-www-form-urlencoded": components["schemas"]["TokenObtainPair"];
+                "multipart/form-data": components["schemas"]["TokenObtainPair"];
+            };
         };
-        content: {
-          "application/json": components["schemas"]["Category"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenObtainPair"];
+                };
+            };
         };
-      };
     };
-  };
-  constructor_options_retrieve: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    auth_token_refresh_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ConstructorOptionsResponse"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TokenRefresh"];
+                "application/x-www-form-urlencoded": components["schemas"]["TokenRefresh"];
+                "multipart/form-data": components["schemas"]["TokenRefresh"];
+            };
         };
-      };
-    };
-  };
-  delivery_cities_list: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenRefresh"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["City"][];
+    };
+    categories_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  delivery_points_list: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Category"][];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["Point"][];
+    };
+    categories_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  delivery_quote_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["QuoteRequest"];
-        "application/x-www-form-urlencoded": components["schemas"]["QuoteRequest"];
-        "multipart/form-data": components["schemas"]["QuoteRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Category"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["Quote"][];
+    };
+    constructor_options_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  health_retrieve: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description No response body */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConstructorOptionsResponse"];
+                };
+            };
         };
-        content?: never;
-      };
     };
-  };
-  orders_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Checkout"];
-        "application/x-www-form-urlencoded": components["schemas"]["Checkout"];
-        "multipart/form-data": components["schemas"]["Checkout"];
-      };
-    };
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown;
+    delivery_cities_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["OrderRead"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["City"][];
+                };
+            };
         };
-      };
     };
-  };
-  orders_my_list: {
-    parameters: {
-      query?: {
-        /** @description Which field to use when ordering the results. */
-        ordering?: string;
-        /** @description A page number within the paginated result set. */
-        page?: number;
-        /** @description Number of results to return per page. */
-        page_size?: number;
-        /** @description A search term. */
-        search?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    delivery_points_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["PaginatedOrderReadList"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Point"][];
+                };
+            };
         };
-      };
     };
-  };
-  payments_create_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["PaymentCreate"];
-        "application/x-www-form-urlencoded": components["schemas"]["PaymentCreate"];
-        "multipart/form-data": components["schemas"]["PaymentCreate"];
-      };
-    };
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown;
+    delivery_quote_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["PaymentRead"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuoteRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["QuoteRequest"];
+                "multipart/form-data": components["schemas"]["QuoteRequest"];
+            };
         };
-      };
-    };
-  };
-  payments_status_retrieve: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Quote"][];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["PaymentStatusResponse"];
+    };
+    health_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  payments_yookassa_webhook_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description No response body */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-        content?: never;
-      };
     };
-  };
-  products_list: {
-    parameters: {
-      query?: {
-        category?: string;
-        in_stock?: boolean;
-        max_price?: number;
-        min_price?: number;
-        /** @description Which field to use when ordering the results. */
-        ordering?: string;
-        /** @description A page number within the paginated result set. */
-        page?: number;
-        /** @description Number of results to return per page. */
-        page_size?: number;
-        /** @description A search term. */
-        search?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    orders_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["PaginatedProductListList"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Checkout"];
+                "application/x-www-form-urlencoded": components["schemas"]["Checkout"];
+                "multipart/form-data": components["schemas"]["Checkout"];
+            };
         };
-      };
-    };
-  };
-  products_retrieve: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        slug: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderRead"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["ProductDetail"];
-        };
-      };
     };
-  };
+    orders_my_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedOrderReadList"];
+                };
+            };
+        };
+    };
+    payments_create_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentCreate"];
+                "application/x-www-form-urlencoded": components["schemas"]["PaymentCreate"];
+                "multipart/form-data": components["schemas"]["PaymentCreate"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaymentRead"];
+                };
+            };
+        };
+    };
+    payments_status_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaymentStatusResponse"];
+                };
+            };
+        };
+    };
+    payments_yookassa_webhook_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    products_list: {
+        parameters: {
+            query?: {
+                category?: string;
+                in_stock?: boolean;
+                max_price?: number;
+                min_price?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedProductListList"];
+                };
+            };
+        };
+    };
+    products_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductDetail"];
+                };
+            };
+        };
+    };
 }

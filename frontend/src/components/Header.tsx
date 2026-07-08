@@ -8,10 +8,12 @@ import { useAuth } from "@/lib/auth";
 import { cartCount, useCart } from "@/lib/cart";
 import { useMounted } from "@/lib/hooks";
 
+// «Конструктор» убран из меню до готовой 3D-модели (заглушка выглядела сломанной,
+// аудит 2026-07-08); страница /custom жива — вход через кнопки в каталоге и футере.
 const NAV = [
   { href: "/", label: "Главная" },
   { href: "/catalog", label: "Каталог" },
-  { href: "/custom", label: "Конструктор" },
+  { href: "/delivery", label: "Доставка" },
   { href: "/testimonials", label: "Отзывы" },
   { href: "/contacts", label: "Контакты" },
 ];

@@ -102,6 +102,10 @@ class ProductDetailSerializer(ProductListSerializer):
     class Meta(ProductListSerializer.Meta):
         fields = ProductListSerializer.Meta.fields + [
             "description",
+            "dimensions",
+            "composition",
+            "care",
+            "production_time",
             "images",
             "variants",
             "meta_title",

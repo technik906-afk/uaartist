@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import ProductGallery from "@/components/ProductGallery";
 import VariantPicker from "@/components/VariantPicker";
 import { getProduct } from "@/lib/api/client";
 
@@ -28,6 +29,14 @@ export default async function ProductPage({ params }: Props) {
   const product = await getProduct(slug).catch(() => null);
   if (!product) notFound();
 
+  // Характеристики: показываем только заполненные в админке
+  const specs = [
+    ["Размеры", product.dimensions],
+    ["Состав", product.composition],
+    ["Уход", product.care],
+    ["Срок изготовления", product.production_time],
+  ].filter(([, value]) => value);
+
   return (
     <section className="products" style={{ padding: "120px 0 48px" }}>
       <div className="container">
@@ -39,26 +48,7 @@ export default async function ProductPage({ params }: Props) {
             alignItems: "start",
           }}
         >
-          {/* Галерея */}
-          <div>
-            {product.images.length > 0 ? (
-              <div style={{ display: "grid", gap: "16px" }}>
-                {product.images.map((img) => (
-                  <Image
-                    key={img.id}
-                    src={img.image}
-                    alt={img.alt_text || product.name}
-                    width={800}
-                    height={800}
-                    style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-                    priority={!!img.is_main}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div style={{ aspectRatio: "1", background: "#f5f3f0", borderRadius: "8px" }} />
-            )}
-          </div>
+          <ProductGallery images={product.images} alt={product.name} />
 
           {/* Информация и выбор варианта */}
           <div>
@@ -66,10 +56,45 @@ export default async function ProductPage({ params }: Props) {
             <h1 className="section-title font-serif" style={{ textAlign: "left" }}>
               {product.name}
             </h1>
-            {product.description && (
-              <p style={{ margin: "16px 0 24px", lineHeight: 1.7 }}>{product.description}</p>
-            )}
             <VariantPicker product={product} />
+
+            {product.description && (
+              <p style={{ margin: "24px 0 0", lineHeight: 1.7 }}>{product.description}</p>
+            )}
+
+            {specs.length > 0 && (
+              <dl style={{ margin: "24px 0 0", display: "grid", gap: 8 }}>
+                {specs.map(([label, value]) => (
+                  <div key={label} style={{ display: "flex", gap: 12, fontSize: "0.95rem" }}>
+                    <dt style={{ color: "#8b7d6b", minWidth: 150 }}>{label}</dt>
+                    <dd style={{ margin: 0 }}>{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+
+            <div
+              style={{
+                margin: "28px 0 0",
+                padding: "16px 20px",
+                background: "#f5f3f0",
+                borderRadius: 8,
+                fontSize: "0.9rem",
+                lineHeight: 1.6,
+              }}
+            >
+              <p style={{ margin: 0 }}>
+                <strong>Доставка:</strong> СДЭК (пункт выдачи или курьер) и Почта России, отправка
+                из Череповца. Точная стоимость и сроки рассчитаются при оформлении заказа.
+              </p>
+              <p style={{ margin: "8px 0 0" }}>
+                <strong>Возврат:</strong> в течение 7 дней после получения (кроме изделий, сшитых
+                по индивидуальному заказу).{" "}
+                <Link href="/delivery" style={{ textDecoration: "underline" }}>
+                  Подробнее о доставке и оплате
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

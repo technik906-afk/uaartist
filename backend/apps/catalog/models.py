@@ -58,6 +58,26 @@ class Product(models.Model):
     description = models.TextField("Описание", blank=True)
     is_active = models.BooleanField("Активен", default=True)
 
+    # Характеристики для карточки (опциональны — пустые строки скрываются на фронте)
+    dimensions = models.CharField(
+        "Размеры", max_length=120, blank=True, help_text="Например: 20 × 12 × 10 см"
+    )
+    composition = models.CharField(
+        "Состав",
+        max_length=200,
+        blank=True,
+        help_text="Например: букле (100% хлопок), подклад — лён",
+    )
+    care = models.CharField(
+        "Уход", max_length=200, blank=True, help_text="Например: ручная стирка при 30°, не отжимать"
+    )
+    production_time = models.CharField(
+        "Срок изготовления",
+        max_length=120,
+        blank=True,
+        help_text="Например: в наличии — отправим за 1–2 дня / пошив 3–5 рабочих дней",
+    )
+
     # SEO
     meta_title = models.CharField("Meta title", max_length=200, blank=True)
     meta_description = models.CharField("Meta description", max_length=300, blank=True)

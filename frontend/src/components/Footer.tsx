@@ -41,7 +41,7 @@ export default function Footer() {
                 <Link href="/contacts">Связаться</Link>
               </li>
               <li>
-                <Link href="/contacts">Доставка</Link>
+                <Link href="/delivery">Доставка и оплата</Link>
               </li>
             </ul>
           </div>

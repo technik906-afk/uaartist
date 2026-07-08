@@ -9,6 +9,7 @@
   --color-accent-light: #d4c4b0;
   --color-text-dark: #2c2c2c;
   --color-text-brown: #6b4e37;
+  --color-brown-dark: #52392a;
   --color-text-gray: #8b7d6b;
   --color-white: #ffffff;
 
@@ -127,14 +128,15 @@ ul {
   transition: all var(--transition-base);
 }
 
+/* Тёмно-кофейный CTA: бежевый сливался с фоном (аудит дизайна 2026-07-08) */
 .btn-primary {
-  background: var(--color-accent);
+  background: var(--color-text-brown);
   color: var(--color-white);
   box-shadow: var(--shadow-lg);
 }
 
 .btn-primary:hover {
-  background: var(--color-text-brown);
+  background: var(--color-brown-dark);
   box-shadow: var(--shadow-xl);
 }
 
@@ -524,7 +526,7 @@ ul {
 .hero-subtitle {
   font-size: clamp(1.25rem, 3vw, 1.75rem);
   font-weight: 300;
-  color: var(--color-accent);
+  color: var(--color-text-brown); /* бежевый по бежевому не читался */
 }
 
 .hero-text {
@@ -956,10 +958,11 @@ ul {
   margin-top: var(--spacing-xs);
 }
 
+/* Цена — уверенно и читаемо, а не «шёпотом» (аудит дизайна 2026-07-08) */
 .product-price {
   font-size: 1.5rem;
-  font-weight: 300;
-  color: var(--color-accent);
+  font-weight: 500;
+  color: var(--color-text-dark);
   white-space: nowrap;
 }
 
@@ -1472,6 +1475,20 @@ ul {
 
   .hero-buttons {
     justify-content: center;
+  }
+
+  /* Мобильный первый экран должен показывать товар, а не только текст */
+  .hero {
+    min-height: auto;
+  }
+
+  .hero-image {
+    order: -1;
+  }
+
+  .hero-image-wrapper img {
+    max-height: 42vh;
+    object-fit: cover;
   }
 
   .hero-image {
