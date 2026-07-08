@@ -8,8 +8,8 @@ export default function Footer() {
           <div className="footer-brand">
             <h3 className="footer-logo font-serif">uaartist</h3>
             <p>
-              Аксессуары ручной работы из органических материалов для сознательных покупателей.
-              Устойчивые, элегантные, вневременные.
+              Косметички и аксессуары ручной работы из натуральных тканей. Сшито вручную в
+              Череповце, отправляем по всей России.
             </p>
           </div>
           <div className="footer-links">

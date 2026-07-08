@@ -33,10 +33,11 @@ export default async function HomePage() {
             <h1 className="hero-title">
               <span className="font-serif">Красота ручной работы</span>
             </h1>
-            <h2 className="hero-subtitle">Аксессуары из органического хлопка и льна</h2>
+            <h2 className="hero-subtitle">Косметички из хлопкового букле и льна</h2>
             <p className="hero-text">
-              Воплотите устойчивую элегантность с нашими аксессуарами ручной работы. Каждое изделие
-              рассказывает историю осознанной жизни и вневременного стиля.
+              Шью косметички и аксессуары вручную, по одной. Плотное букле, льняной подклад,
+              молнии, которые не заедают. Каждая — в единственном экземпляре: повторить фактуру
+              ткани невозможно.
             </p>
             <div className="hero-buttons">
               <Link href="/catalog" className="btn btn-primary">
@@ -51,7 +52,7 @@ export default async function HomePage() {
             <div className="hero-image-wrapper">
               <Image
                 src="/img/IMG_6666.jpg"
-                alt="Косметичка ручной работы из органического льна"
+                alt="Косметичка ручной работы из хлопкового букле"
                 width={800}
                 height={800}
                 priority
@@ -69,33 +70,29 @@ export default async function HomePage() {
         <div className="features-blur features-blur-2"></div>
         <div className="container">
           <div className="section-header">
-            <p className="section-badge">Почему мы</p>
-            <h2 className="section-title font-serif">Создано с заботой и осознанностью</h2>
+            <p className="section-badge">Почему у нас</p>
+            <h2 className="section-title font-serif">Сшито руками — по одной</h2>
           </div>
           <div className="features-grid">
             <div className="feature-card">
-              <h3 className="feature-title font-serif">Органические материалы</h3>
+              <h3 className="feature-title font-serif">Не фабрика</h3>
               <p className="feature-text">
-                100% сертифицированный органический хлопок и натуральный лён — бережно для вашей
-                кожи и планеты.
+                Один человек, одна швейная машинка, маленькие партии. Каждый шов под контролем —
+                никакого конвейера.
               </p>
             </div>
             <div className="feature-card">
-              <h3 className="feature-title font-serif">Ручная работа</h3>
+              <h3 className="feature-title font-serif">Натуральные ткани</h3>
               <p className="feature-text">
-                Каждое изделие изготавливается вручную с исключительным вниманием к деталям.
+                Хлопковое букле и лён: приятные к коже, держат форму и красиво стареют вместе с
+                вами.
               </p>
             </div>
             <div className="feature-card">
-              <h3 className="feature-title font-serif">Устойчивая жизнь</h3>
+              <h3 className="feature-title font-serif">Единственный экземпляр</h3>
               <p className="feature-text">
-                Безотходное производство, упаковка без пластика, биоразлагаемые материалы.
-              </p>
-            </div>
-            <div className="feature-card">
-              <h3 className="feature-title font-serif">Вневременной дизайн</h3>
-              <p className="feature-text">
-                Эстетика бохо-шик с натуральными оттенками, которые дополнят любой стиль.
+                Фактура букле не повторяется — вторая такая же косметичка не получится, даже если
+                захотеть.
               </p>
             </div>
           </div>

@@ -6,7 +6,8 @@ import { getCategories, getProducts } from "@/lib/api/client";
 
 export const metadata: Metadata = {
   title: "Каталог",
-  description: "Каталог аксессуаров ручной работы из органических материалов.",
+  description:
+    "Косметички и аксессуары ручной работы из натуральных тканей — готовые модели и индивидуальный пошив.",
 };
 
 // Зеркало DefaultPagination.page_size на бэкенде.
