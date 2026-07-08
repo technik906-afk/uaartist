@@ -564,16 +564,6 @@ ul {
   transform: scale(1.05);
 }
 
-.hero-image-accent {
-  position: absolute;
-  top: var(--spacing-2xl);
-  right: var(--spacing-2xl);
-  width: 96px;
-  height: 96px;
-  background: rgba(196, 181, 160, 0.2);
-  backdrop-filter: blur(12px);
-  border-radius: var(--radius-full);
-}
 
 .hero-blur {
   position: absolute;
@@ -1484,6 +1474,11 @@ ul {
 
   .hero-image {
     order: -1;
+  }
+
+  /* Декоративные blur-круги на узком экране налезают на фото */
+  .hero-blur {
+    display: none;
   }
 
   .hero-image-wrapper img {

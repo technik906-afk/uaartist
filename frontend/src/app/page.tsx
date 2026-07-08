@@ -57,7 +57,6 @@ export default async function HomePage() {
                 height={800}
                 priority
               />
-              <div className="hero-image-accent"></div>
             </div>
             <div className="hero-blur hero-blur-1"></div>
             <div className="hero-blur hero-blur-2"></div>
