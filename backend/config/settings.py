@@ -172,6 +172,13 @@ EMAIL_USE_SSL = env.bool("DJANGO_EMAIL_USE_SSL", default=False)  # SSL (порт
 # подвесит чекаут до таймаута gunicorn (60 c).
 EMAIL_TIMEOUT = env.int("DJANGO_EMAIL_TIMEOUT", default=10)
 
+# Email-дубли уведомлений: Telegram из РФ ненадёжен (блокировки), почта — резерв.
+# Письмо владельцу о каждом заказе (пусто = выключено):
+ORDER_NOTIFY_EMAIL = env("ORDER_NOTIFY_EMAIL", default="")
+# 500-ки на почту штатным mail_admins (работает при DEBUG=False и непустом списке):
+ADMINS = [("owner", address) for address in env.list("DJANGO_ADMINS", default=[])]
+SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default="uaartist <noreply@uaartist.ru>")
+
 # База фронтенда — для ссылок в письмах (сброс пароля) и return_url оплаты.
 FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:3000")
 

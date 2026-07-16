@@ -19,7 +19,7 @@ from apps.delivery import quotes as delivery_quotes
 
 from . import pricing
 from .models import Order, OrderItem
-from .notifications import notify_new_order, send_order_email
+from .notifications import notify_new_order, notify_owner_email, send_order_email
 
 
 def _resolve_delivery(delivery: dict, items: list[dict]) -> dict:
@@ -126,5 +126,6 @@ def create_order(*, customer: dict, items: list[dict], delivery: dict, user=None
 
     # после успешного коммита; сбой уведомлений заказ не валит
     notify_new_order(order)
+    notify_owner_email(order)
     send_order_email(order)
     return order

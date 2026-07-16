@@ -54,8 +54,9 @@ def send_telegram_message(text: str) -> bool:
         return False
 
 
-def notify_new_order(order) -> bool:
-    lines = [f"🛍 Новый заказ #{order.pk}", ""]
+def _order_summary(order) -> list[str]:
+    """Текст уведомления о заказе — общий для Telegram и письма владельцу."""
+    lines = []
     for item in order.items.all():
         lines.append(f"• {item.product_name} × {item.quantity} = {item.line_total:.0f} ₽")
         if item.custom_config:
@@ -83,4 +84,26 @@ def notify_new_order(order) -> bool:
     ]
     if order.comment:
         lines.append(f"Комментарий: {order.comment}")
+    return lines
+
+
+def notify_new_order(order) -> bool:
+    lines = [f"🛍 Новый заказ #{order.pk}", ""] + _order_summary(order)
     return send_telegram_message("\n".join(lines))
+
+
+def notify_owner_email(order) -> bool:
+    """Дубль уведомления о заказе на почту владельца: Telegram из РФ ненадёжен."""
+    if not settings.ORDER_NOTIFY_EMAIL:
+        return False
+    try:
+        send_mail(
+            subject=f"Новый заказ #{order.pk} — {order.total:.0f} ₽",
+            message="\n".join(_order_summary(order)),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.ORDER_NOTIFY_EMAIL],
+        )
+        return True
+    except Exception:
+        logger.exception("Не удалось отправить владельцу письмо о заказе #%s", order.pk)
+        return False
