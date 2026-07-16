@@ -6,9 +6,6 @@ export const metadata: Metadata = {
   description: "Свяжитесь с uaartist: вопросы о заказах, доставке и индивидуальном пошиве.",
 };
 
-// Временный минимум: настоящего почтового ящика пока нет (появится вместе с
-// офертой) — несуществующий hello@ и инстаграм убраны, чтобы не отправлять
-// людей в пустоту. Как будет ящик — вписать сюда и в оферту.
 export default function ContactsPage() {
   return (
     <>
@@ -22,7 +19,14 @@ export default function ContactsPage() {
         <div className="container" style={{ maxWidth: 560 }}>
           <div className="feature-card">
             <p className="feature-text">
-              Раздел обновляется — скоро здесь появится почта для связи.
+              Почта:{" "}
+              <a href="mailto:uaartist@yandex.ru" style={{ textDecoration: "underline" }}>
+                uaartist@yandex.ru
+              </a>
+            </p>
+            <p className="feature-text" style={{ marginTop: 12 }}>
+              Пишите по вопросам заказов, доставки, возврата и индивидуального пошива — отвечаем
+              в течение рабочего дня.
             </p>
             <p className="feature-text" style={{ marginTop: 16 }}>
               Статус своего заказа можно посмотреть в{" "}

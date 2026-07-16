@@ -43,11 +43,19 @@ export default function Footer() {
               <li>
                 <Link href="/delivery">Доставка и оплата</Link>
               </li>
+              <li>
+                <Link href="/offer">Публичная оферта</Link>
+              </li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} uaartist. Все права защищены.</p>
+          {/* Реквизиты продавца — требование дистанционной торговли и модерации ЮKassa */}
+          <p style={{ marginTop: 8, fontSize: "0.8rem", opacity: 0.7 }}>
+            ИП Алексеева Ульяна Андрияновна · ОГРНИП 324350000007097 · ИНН 352811360022 ·{" "}
+            <a href="mailto:uaartist@yandex.ru">uaartist@yandex.ru</a>
+          </p>
         </div>
       </div>
     </footer>

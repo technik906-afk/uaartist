@@ -218,6 +218,13 @@ export default function CheckoutPage() {
                 ? `Подтвердить заказ — ${formatPrice(cartTotal(items) + delivery.price)}`
                 : "Выберите доставку"}
           </button>
+          <p style={{ fontSize: "0.8rem", color: "#8b7d6b", textAlign: "center", margin: 0 }}>
+            Подтверждая заказ, вы соглашаетесь с{" "}
+            <Link href="/offer" style={{ textDecoration: "underline" }}>
+              публичной офертой
+            </Link>
+            .
+          </p>
         </form>
       </div>
     </section>

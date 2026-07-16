@@ -13,6 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/catalog",
     "/custom",
     "/delivery",
+    "/offer",
     "/testimonials",
     "/contacts",
   ].map((path) => ({ url: `${SITE_URL}${path}`, changeFrequency: "weekly" }));
