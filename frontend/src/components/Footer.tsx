@@ -46,6 +46,9 @@ export default function Footer() {
               <li>
                 <Link href="/offer">Публичная оферта</Link>
               </li>
+              <li>
+                <Link href="/privacy">Персональные данные</Link>
+              </li>
             </ul>
           </div>
         </div>

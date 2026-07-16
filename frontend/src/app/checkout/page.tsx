@@ -222,6 +222,10 @@ export default function CheckoutPage() {
             Подтверждая заказ, вы соглашаетесь с{" "}
             <Link href="/offer" style={{ textDecoration: "underline" }}>
               публичной офертой
+            </Link>{" "}
+            и{" "}
+            <Link href="/privacy" style={{ textDecoration: "underline" }}>
+              политикой обработки персональных данных
             </Link>
             .
           </p>

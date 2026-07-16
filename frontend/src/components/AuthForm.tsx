@@ -116,7 +116,12 @@ export default function AuthForm({ mode }: { mode: "login" | "register" }) {
                 onChange={(e) => setConsent(e.target.checked)}
                 style={{ marginTop: 3 }}
               />
-              <span>Согласие на обработку персональных данных</span>
+              <span>
+                Даю согласие на обработку персональных данных в соответствии с{" "}
+                <Link href="/privacy" target="_blank" style={{ textDecoration: "underline" }}>
+                  политикой обработки
+                </Link>
+              </span>
             </label>
           )}
           {error && (
