@@ -4,6 +4,13 @@ const nextConfig: NextConfig = {
   // Self-hosted прод (Docker на VM): минимальный сервер в .next/standalone.
   // `npm run start` со standalone не работает — только node server.js (см. Dockerfile).
   output: "standalone",
+  async redirects() {
+    return [
+      // Конструктор ВЫКЛЮЧЕН до возобновления разработки (наработки — в ветке
+      // constructor-photo-wip). Включить обратно: удалить этот редирект.
+      { source: "/custom", destination: "/", permanent: false },
+    ];
+  },
   images: {
     // Фото товаров отдаёт Django (MEDIA_URL): dev — localhost, прод — api-домен.
     remotePatterns: [
