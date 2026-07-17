@@ -26,6 +26,8 @@ server {
     ssl_certificate /etc/letsencrypt/live/www.uaartist.ru/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/www.uaartist.ru/privkey.pem;
 
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
     return 308 https://www.uaartist.ru$request_uri;
 }
 
@@ -36,6 +38,13 @@ server {
 
     ssl_certificate /etc/letsencrypt/live/www.uaartist.ru/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/www.uaartist.ru/privkey.pem;
+
+    # Security-заголовки витрины (Next.js сам их не ставит):
+    # год HTTPS-only, запрет iframe (кликджекинг), запрет MIME-sniffing.
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 
     location / {
         proxy_pass http://frontend:3000;

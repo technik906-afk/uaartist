@@ -93,7 +93,18 @@ class TestHappyPath:
         checkout(api, [{"variant_id": variant.pk}])
         assert len(tg_sent) == 1
         assert "Косметичка «Беж»" in tg_sent[0]
-        assert "Анна" in tg_sent[0]
+        assert "Итого" in tg_sent[0]
+
+    def test_telegram_has_no_personal_data(self, api, variant, tg_sent):
+        """152-ФЗ: Telegram — иностранный сервис, ПДн покупателя туда не уходят."""
+        checkout(api, [{"variant_id": variant.pk}])
+        message = tg_sent[0]
+        assert CUSTOMER["name"] not in message
+        assert CUSTOMER["phone"] not in message
+        assert CUSTOMER["email"] not in message
+        from conftest import DELIVERY_PAYLOAD
+
+        assert DELIVERY_PAYLOAD["address"] not in message
 
 
 class TestCustomItems:

@@ -11,8 +11,9 @@ from rest_framework import serializers, status
 from rest_framework.decorators import api_view, permission_classes, throttle_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.throttling import UserRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .serializers import (
     PasswordChangeSerializer,
@@ -26,8 +27,26 @@ from .serializers import (
 logger = logging.getLogger(__name__)
 
 
-class AuthThrottle(ScopedRateThrottle):
+# База — UserRateThrottle, НЕ ScopedRateThrottle: последний берёт scope только
+# с атрибута вьюхи throttle_scope, а с самого класса молча пропускает всех.
+class AuthThrottle(UserRateThrottle):
     scope = "auth"
+
+
+class AuthRefreshThrottle(UserRateThrottle):
+    scope = "auth_refresh"
+
+
+class ThrottledTokenObtainPairView(TokenObtainPairView):
+    """Логин: пара токенов по паролю. Лимит — защита от перебора паролей."""
+
+    throttle_classes = [AuthThrottle]
+
+
+class ThrottledTokenRefreshView(TokenRefreshView):
+    """Обновление access-токена. Лимит мягче: фронт дергает это регулярно."""
+
+    throttle_classes = [AuthRefreshThrottle]
 
 
 TOKENS_RESPONSE = inline_serializer(

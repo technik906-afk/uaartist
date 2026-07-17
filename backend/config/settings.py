@@ -119,6 +119,10 @@ CORS_ALLOWED_ORIGINS = env.list(
 # Django должен доверять X-Forwarded-Proto от nginx, иначе не поймёт, что HTTPS.
 if env.bool("DJANGO_BEHIND_PROXY", default=False):
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    # Куки только по HTTPS (сессия админки + CSRF). Локально флаг выключен,
+    # иначе логин в админку по http://localhost перестанет работать.
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Django 4+: для POST в админку по HTTPS нужен явный список доверенных origin.
 CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=[])
@@ -133,11 +137,13 @@ REST_FRAMEWORK = {
         "rest_framework.filters.OrderingFilter",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    # Применяется только к вьюхам с throttle_scope.
+    # ScopedRateThrottle применяется только к вьюхам с атрибутом throttle_scope
+    # (OrderViewSet); остальные лимиты — сабклассы UserRateThrottle в views.
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
     "DEFAULT_THROTTLE_RATES": {
         "orders": "20/hour",
-        "auth": "10/hour",
+        "auth": "10/hour",  # логин + регистрация + сброс пароля (общая корзина)
+        "auth_refresh": "60/hour",  # обновление access-токена фронтом
         "payments": "30/hour",
         # поллинг статуса со страницы «Спасибо» — часто, но недолго
         "payments_status": "300/hour",

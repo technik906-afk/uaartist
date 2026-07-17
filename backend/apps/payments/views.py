@@ -9,7 +9,7 @@ from rest_framework.decorators import (
 )
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.throttling import UserRateThrottle
 
 from apps.orders.models import Order
 
@@ -23,11 +23,13 @@ from .serializers import (
 logger = logging.getLogger(__name__)
 
 
-class PaymentsCreateThrottle(ScopedRateThrottle):
+# UserRateThrottle, НЕ ScopedRateThrottle: тот требует throttle_scope на вьюхе,
+# иначе молча пропускает без лимита (см. apps.accounts.views).
+class PaymentsCreateThrottle(UserRateThrottle):
     scope = "payments"
 
 
-class PaymentsStatusThrottle(ScopedRateThrottle):
+class PaymentsStatusThrottle(UserRateThrottle):
     scope = "payments_status"
 
 

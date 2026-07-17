@@ -54,8 +54,8 @@ def send_telegram_message(text: str) -> bool:
         return False
 
 
-def _order_summary(order) -> list[str]:
-    """Текст уведомления о заказе — общий для Telegram и письма владельцу."""
+def _items_lines(order) -> list[str]:
+    """Состав заказа (позиции + конфиг конструктора) — без персональных данных."""
     lines = []
     for item in order.items.all():
         lines.append(f"• {item.product_name} × {item.quantity} = {item.line_total:.0f} ₽")
@@ -66,6 +66,12 @@ def _order_summary(order) -> list[str]:
                 f"   (размер: {cfg.get('size')}, цвет: {cfg.get('bag_color')}, "
                 f"молния: {cfg.get('zipper_color')}, кисточка: {tassel})"
             )
+    return lines
+
+
+def _order_summary(order) -> list[str]:
+    """Полный текст о заказе (с ПДн) — ТОЛЬКО для письма владельцу (smtp, РФ)."""
+    lines = _items_lines(order)
     if order.delivery_method:
         place = order.delivery_pvz_address or order.delivery_address
         lines += [
@@ -88,7 +94,13 @@ def _order_summary(order) -> list[str]:
 
 
 def notify_new_order(order) -> bool:
-    lines = [f"🛍 Новый заказ #{order.pk}", ""] + _order_summary(order)
+    """
+    Telegram — иностранный сервис: персональные данные (имя, телефон, email,
+    адрес — 152-ФЗ) сюда НЕ отправляем. Только номер, состав и сумма;
+    полные данные покупателя — в письме владельцу (notify_owner_email).
+    """
+    lines = [f"🛍 Новый заказ #{order.pk}", ""] + _items_lines(order)
+    lines += ["", f"Итого: {order.total:.0f} ₽"]
     return send_telegram_message("\n".join(lines))
 
 

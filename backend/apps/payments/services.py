@@ -113,9 +113,8 @@ def sync_payment(payment: Payment) -> Payment:
     if payment.status == Payment.Status.SUCCEEDED and order.payment_status != "paid":
         order.payment_status = "paid"
         order.save(update_fields=["payment_status", "updated_at"])
-        send_telegram_message(
-            f"💰 Заказ #{order.pk} оплачен: {order.total:.0f} ₽ ({order.customer_name})"
-        )
+        # Без имени клиента: Telegram — иностранный сервис, ПДн туда не шлём (152-ФЗ).
+        send_telegram_message(f"💰 Заказ #{order.pk} оплачен: {order.total:.0f} ₽")
     elif payment.status == Payment.Status.CANCELED and order.payment_status == "pending":
         order.payment_status = "failed"
         order.save(update_fields=["payment_status", "updated_at"])
