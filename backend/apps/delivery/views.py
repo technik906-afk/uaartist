@@ -1,11 +1,24 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import serializers
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
 
 from . import quotes
 from .services import cdek
+
+
+# UserRateThrottle, НЕ ScopedRateThrottle: тот требует throttle_scope на вьюхе,
+# иначе молча пропускает без лимита (см. apps.accounts.views).
+# Эндпоинты — прокси к API СДЭК с кредами магазина: без лимита их можно
+# использовать для выжигания квоты аккаунта и удержания sync-воркеров.
+class DeliveryThrottle(UserRateThrottle):
+    scope = "delivery"
+
+
+class DeliveryQuoteThrottle(UserRateThrottle):
+    scope = "delivery_quote"
 
 
 class CitySerializer(serializers.Serializer):
@@ -36,6 +49,7 @@ class QuoteRequestSerializer(serializers.Serializer):
 @extend_schema(responses=CitySerializer(many=True))
 @api_view(["GET"])
 @permission_classes([AllowAny])
+@throttle_classes([DeliveryThrottle])
 def cities(request):
     """Подсказки городов (справочник СДЭК)."""
     query = (request.query_params.get("q") or "").strip()
@@ -47,6 +61,7 @@ def cities(request):
 @extend_schema(responses=PointSerializer(many=True))
 @api_view(["GET"])
 @permission_classes([AllowAny])
+@throttle_classes([DeliveryThrottle])
 def points(request):
     """Пункты выдачи СДЭК в городе."""
     try:
@@ -59,6 +74,7 @@ def points(request):
 @extend_schema(request=QuoteRequestSerializer, responses=QuoteSerializer(many=True))
 @api_view(["POST"])
 @permission_classes([AllowAny])
+@throttle_classes([DeliveryQuoteThrottle])
 def quote(request):
     """Варианты доставки с ценами; вес корзины считает сервер."""
     serializer = QuoteRequestSerializer(data=request.data)

@@ -6,6 +6,7 @@
 - Тарифы: 136 «Посылка склад-склад» (ПВЗ), 137 «Посылка склад-дверь» (курьер).
 """
 
+import hashlib
 import logging
 
 import requests
@@ -64,20 +65,37 @@ def _get(path: str, params: dict) -> list | dict:
 
 
 def suggest_cities(query: str) -> list[dict]:
-    """Подсказки городов: [{code, full_name}]."""
+    """
+    Подсказки городов: [{code, full_name}]. Справочник стабилен — кэшируем час
+    (успешные ответы; ошибки не кэшируем). Ключ хешируем: запрос — произвольная
+    строка пользователя.
+    """
+    cache_key = "cdek_cities_" + hashlib.md5(query.lower().encode()).hexdigest()
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     try:
         data = _get("/location/suggest/cities", {"name": query, "country_code": "RU"})
-        return [{"code": c["code"], "full_name": c["full_name"]} for c in data[:8]]
+        result = [{"code": c["code"], "full_name": c["full_name"]} for c in data[:8]]
     except (requests.RequestException, CdekUnavailable, KeyError) as exc:
         logger.warning("СДЭК suggest_cities: %s", exc)
         return []
+    cache.set(cache_key, result, 3600)
+    return result
 
 
 def delivery_points(city_code: int) -> list[dict]:
-    """Пункты выдачи города: [{code, name, address, work_time}]."""
+    """
+    Пункты выдачи города: [{code, name, address, work_time}].
+    Меняются редко — кэшируем на 30 минут (только успешные ответы).
+    """
+    cache_key = f"cdek_points_{city_code}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     try:
         data = _get("/deliverypoints", {"city_code": city_code, "type": "PVZ"})
-        return [
+        result = [
             {
                 "code": p["code"],
                 "name": p.get("name", ""),
@@ -89,6 +107,8 @@ def delivery_points(city_code: int) -> list[dict]:
     except (requests.RequestException, CdekUnavailable, KeyError) as exc:
         logger.warning("СДЭК delivery_points: %s", exc)
         return []
+    cache.set(cache_key, result, 1800)
+    return result
 
 
 def calc_tariffs(to_city_code: int, weight_grams: int) -> dict[int, dict]:

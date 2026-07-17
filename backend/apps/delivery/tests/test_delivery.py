@@ -12,6 +12,8 @@ from apps.orders.models import Order
 
 CHECKOUT_URL = "/api/v1/orders/"
 QUOTE_URL = "/api/v1/delivery/quote/"
+CITIES_URL = "/api/v1/delivery/cities/"
+POINTS_URL = "/api/v1/delivery/points/"
 
 CUSTOMER = {"name": "Анна", "phone": "+7 900 123-45-67", "email": "anna@example.com"}
 
@@ -77,6 +79,70 @@ class TestQuoteAll:
         )
         result = quotes.quote_all(44, "101000", 300)
         assert [q["method"] for q in result] == ["post"]  # СДЭК выпал, Почта жива
+
+
+class TestEndpointProtection:
+    """Эндпоинты — прокси к API СДЭК: кэш справочников + троттлинг против абьюза."""
+
+    CITY = [{"code": 44, "full_name": "Москва"}]
+    POINT = [{"code": "MSK1", "name": "ПВЗ", "location": {"address_full": "ул. А, 1"}}]
+
+    def test_cities_cached(self, api, monkeypatch, db):
+        calls = []
+        monkeypatch.setattr(
+            "apps.delivery.services.cdek._get",
+            lambda path, params: calls.append(path) or self.CITY,
+        )
+        first = api.get(CITIES_URL, {"q": "Мос"})
+        second = api.get(CITIES_URL, {"q": "Мос"})
+        assert first.json() == second.json() == self.CITY
+        assert len(calls) == 1  # второй ответ из кэша
+
+    def test_points_cached(self, api, monkeypatch, db):
+        calls = []
+        monkeypatch.setattr(
+            "apps.delivery.services.cdek._get",
+            lambda path, params: calls.append(path) or self.POINT,
+        )
+        api.get(POINTS_URL, {"city_code": 44})
+        response = api.get(POINTS_URL, {"city_code": 44})
+        assert response.json()[0]["address"] == "ул. А, 1"
+        assert len(calls) == 1
+
+    def test_cities_failure_not_cached(self, api, monkeypatch, db):
+        from apps.delivery.services.cdek import CdekUnavailable
+
+        def boom(path, params):
+            raise CdekUnavailable("down")
+
+        monkeypatch.setattr("apps.delivery.services.cdek._get", boom)
+        assert api.get(CITIES_URL, {"q": "Мос"}).json() == []
+        # СДЭК ожил — следующий запрос должен уйти в API, а не в кэш ошибки
+        monkeypatch.setattr("apps.delivery.services.cdek._get", lambda path, params: self.CITY)
+        assert api.get(CITIES_URL, {"q": "Мос"}).json() == self.CITY
+
+    @pytest.fixture
+    def _tight_rates(self, monkeypatch):
+        # Подмена DEFAULT_THROTTLE_RATES не работает: DRF захватывает словарь
+        # в SimpleRateThrottle.THROTTLE_RATES при импорте. Подменяем rate класса.
+        from apps.delivery.views import DeliveryQuoteThrottle, DeliveryThrottle
+
+        monkeypatch.setattr(DeliveryThrottle, "rate", "2/hour", raising=False)
+        monkeypatch.setattr(DeliveryQuoteThrottle, "rate", "2/hour", raising=False)
+
+    def test_cities_throttled(self, api, monkeypatch, db, _tight_rates):
+        monkeypatch.setattr("apps.delivery.services.cdek.suggest_cities", lambda q: [])
+        # разные q — мимо кэша: лимит должен сработать сам по себе
+        statuses = [api.get(CITIES_URL, {"q": f"аб{i}"}).status_code for i in range(3)]
+        assert statuses == [200, 200, 429]
+
+    def test_quote_throttled(self, api, monkeypatch, db, _tight_rates):
+        monkeypatch.setattr("apps.delivery.quotes.quote_all", lambda c, p, w: [])
+        payload = {"postcode": "101000", "items": [{"custom": {}, "quantity": 1}]}
+        statuses = [
+            api.post(QUOTE_URL, payload, format="json").status_code for _ in range(3)
+        ]
+        assert statuses == [200, 200, 429]
 
 
 class TestCheckoutWithDelivery:

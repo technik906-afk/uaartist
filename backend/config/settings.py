@@ -147,6 +147,10 @@ REST_FRAMEWORK = {
         "payments": "30/hour",
         # поллинг статуса со страницы «Спасибо» — часто, но недолго
         "payments_status": "300/hour",
+        # прокси к API СДЭК: автокомплит городов дебаунсится на фронте,
+        # лимиты с большим запасом для живого чекаута
+        "delivery": "120/hour",  # подсказки городов + пункты выдачи
+        "delivery_quote": "60/hour",  # расчёт стоимости доставки
     },
     # JWT: авторизованные запросы несут Authorization: Bearer <token>.
     "DEFAULT_AUTHENTICATION_CLASSES": [
