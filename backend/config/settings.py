@@ -224,6 +224,12 @@ LOGGING = {
             "level": "ERROR",
             "propagate": True,
         },
+        # Чужой Host (сканеры по IP, чужие домены на нашем адресе) Django
+        # и так отбивает 400-кой — письма mail_admins об этом не нужны.
+        "django.security.DisallowedHost": {
+            "handlers": [],
+            "propagate": False,
+        },
     },
 }
 
